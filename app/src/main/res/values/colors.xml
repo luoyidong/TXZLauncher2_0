@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_background_color">#111217</color>
+
+    <color name="color_default_card_bg">#38393D</color>
+    <color name="color_top_card_bg">#8C8C8C</color>
+
+    <!--品牌区域参数天气-->
+    <color name="color_brand_weather_tmp">#FFFFFF</color>
+    <color name="color_brand_weather_desc">#88FFFFFF</color>
+    <color name="color_brand_weather_city">#FFFFFF</color>
+    <color name="color_brand_weather_time">#FFFFFF</color>
+    <!--品牌区域参数HUD-->
+    <color name="color_brand_hud_dir">#FFFFFF</color>
+    <color name="color_brand_hud_status">#88FFFFFF</color>
+    <color name="color_brand_hud_road">#88FFFFFF</color>
+    <color name="color_brand_hud_remain">#FFFFFF</color>
+    <!--品牌区域参数ADAS-->
+    <color name="color_brand_adas_speed">#FFFFFF</color>
+    <color name="color_brand_adas_status">#88FFFFFF</color>
+    <color name="color_brand_adas_time">#FFFFFF</color>
+    <!--品牌区域参数Login-->
+    <color name="color_brand_login_name">#FFFFFFFF</color>
+    <color name="color_brand_login_week_time">#88FFFFFF</color>
+    <color name="color_brand_login_sao">#FFFFFFFF</color>
+    <color name="color_brand_login_get">#FFFFFFFF</color>
+    <color name="color_brand_login_net">#88FFFFFF</color>
+    <color name="color_brand_login_other">#FF008CFF</color>
+    <color name="color_brand_login_qr_bg">#FFFFFF</color>
+
+    <!--天气卡片详情颜色-->
+    <color name="color_weather_right_week">#FFFFFFFF</color>
+    <color name="color_weather_right_des">#99FFFFFF</color>
+    <color name="color_weather_right_max">#FFFFFFFF</color>
+    <color name="color_weather_right_min">#FFFFFFFF</color>
+    <!--天气详情背景色-->
+    <color name="color_weather_right_single">#3FFFFFFF</color>
+    <color name="color_weather_right_double">#0c000000</color>
+
+    <!--展开列表的背景色-->
+    <color name="color_expand_bg">#44FFFFFF</color>
+
+    <!--所有APP的名称颜色-->
+    <color name="color_app_name">#FFFFFFFF</color>
+    <color name="color_quick_name">#FFFFFFFF</color>
+
+    <!--App图标色彩参考-->
+    <color name="color_fcc143">#FCC143</color>
+    <color name="color_40bcf9">#40BCF9</color>
+    <color name="color_5250d3">#5250D3</color>
+    <color name="color_fd6c27">#FD6C27</color>
+    <color name="color_b47ffe">#B47FFE</color>
+    <color name="color_3bbcae">#3BBCAE</color>
+    <color name="color_89939f">#89939F</color>
+    <color name="color_575d81">#575D81</color>
+    <color name="color_be6e53">#BE6E53</color>
+    <color name="color_2cd159">#2CD159</color>
+    <color name="color_008cff">#008CFF</color>
+    <color name="color_ff6976">#FF6976</color>
+    <!--家和公司的颜色-->
+    <color name="color_brand_home">#88FFFFFF</color>
+    <color name="color_brand_company">#88FFFFFF</color>
+
+    <!--卡片字体颜色-->
+    <color name="color_card_name">#FFFFFFFF</color>
+    <color name="color_cardDes_name">#88FFFFFF</color>
+    <color name="color_cardBtn_name">#FFFFFF</color>
+    <!--卡片按钮字体颜色-->
+    <color name="color_cardBtn_text">#FFFFFFFF</color>
+
+    <!--百度标准颜色-->
+    <color name="baidu_carlife_blue">#FF008CFF</color>
+    <color name="baidu_carlife_red">#FFFF1745</color>
+</resources>

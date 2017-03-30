@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--品牌区域参数-->
+    <dimen name="brand_widget_width">@dimen/x368</dimen>
+    <dimen name="brand_btn_margin">10dp</dimen>
+    <dimen name="brand_icon_bottom_margin">20dp</dimen>
+    <dimen name="brand_login_bottom_margin">10dp</dimen>
+    <dimen name="brand_text_lr_margin">5dp</dimen>
+    <!--brand区域家和公司字体大小-->
+    <dimen name="dimen_brand_home_size">@dimen/y26</dimen>
+    <dimen name="dimen_brand_company_size">@dimen/y26</dimen>
+    <dimen name="dimen_brand_margin_bottom">@dimen/y24</dimen>
+
+    <!--品牌区域天气widgetIcon宽高-->
+    <dimen name="dimen_brand_weather_icon_top">@dimen/y56</dimen>
+    <dimen name="dimen_brand_weather_tmp_top">@dimen/y16</dimen>
+    <dimen name="dimen_brand_weather_icon_width">@dimen/x128</dimen>
+    <dimen name="dimen_brand_weather_icon_height">@dimen/x128</dimen>
+    <dimen name="dimen_brand_weather_tmp_size">@dimen/y30</dimen>
+    <dimen name="dimen_brand_weather_desc_size">@dimen/y20</dimen>
+    <dimen name="dimen_brand_weather_city_size">@dimen/y22</dimen>
+    <dimen name="dimen_brand_weather_time_left">@dimen/x8</dimen>
+    <dimen name="dimen_brand_weather_time_size">@dimen/y20</dimen>
+    <!--品牌区域HUD-->
+    <dimen name="dimen_brand_hud_icon_top">@dimen/y56</dimen>
+    <dimen name="dimen_brand_hud_dir_top">@dimen/y1</dimen>
+    <dimen name="dimen_brand_hud_road_top">@dimen/y5</dimen>
+    <dimen name="dimen_brand_hud_icon_width">@dimen/x128</dimen>
+    <dimen name="dimen_brand_hud_icon_height">@dimen/x128</dimen>
+    <dimen name="dimen_brand_hud_margin_bottom">@dimen/y32</dimen>
+    <dimen name="dimen_brand_hud_dir_size">@dimen/y48</dimen>
+    <dimen name="dimen_brand_hud_dir_s_size">@dimen/y20</dimen>
+    <dimen name="dimen_brand_hud_road_size">@dimen/y20</dimen>
+    <dimen name="dimen_brand_hud_remain_size">@dimen/y22</dimen>
+    <!--品牌区域ADAS-->
+    <dimen name="dimen_brand_adas_speed_top">@dimen/y31</dimen>
+    <dimen name="dimen_brand_adas_icon_top">@dimen/y16</dimen>
+    <dimen name="dimen_brand_adas_icon_width">@dimen/x252</dimen>
+    <dimen name="dimen_brand_adas_icon_height">@dimen/y181</dimen>
+    <dimen name="dimen_brand_adas_speed_size">@dimen/y48</dimen>
+    <dimen name="dimen_brand_adas_status_size">@dimen/y18</dimen>
+    <dimen name="dimen_brand_adas_time_size">@dimen/y22</dimen>
+    <!--品牌区域用户区-->
+    <dimen name="dimen_brand_login_icon_top">@dimen/y64</dimen>
+    <dimen name="dimen_brand_login_qr_top">@dimen/y56</dimen>
+    <dimen name="dimen_brand_login_refresh_top">@dimen/y96</dimen>
+    <dimen name="dimen_brand_login_icon_width">@dimen/x120</dimen>
+    <dimen name="dimen_brand_login_icon_height">@dimen/x120</dimen>
+    <dimen name="dimen_brand_login_qr_width">@dimen/x128</dimen>
+    <dimen name="dimen_brand_login_qr_padding">@dimen/x8</dimen>
+    <dimen name="dimen_brand_login_qr_height">@dimen/x128</dimen>
+    <dimen name="dimen_brand_login_name_top">@dimen/y20</dimen>
+    <dimen name="dimen_brand_login_desc_top">@dimen/y6</dimen>
+    <dimen name="dimen_brand_login_name_size">@dimen/y24</dimen>
+    <dimen name="dimen_brand_login_desc_size">@dimen/y20</dimen>
+    <dimen name="dimen_brand_login_refresh_width">@dimen/x48</dimen>
+    <dimen name="dimen_brand_login_refresh_height">@dimen/x48</dimen>
+    <dimen name="dimen_brand_login_sao_top">@dimen/y32</dimen>
+    <dimen name="dimen_brand_login_get_top">@dimen/y16</dimen>
+    <dimen name="dimen_brand_login_net_top">@dimen/y8</dimen>
+    <dimen name="dimen_brand_login_other_bottom">@dimen/y28</dimen>
+    <dimen name="dimen_brand_login_sao_size">@dimen/y24</dimen>
+    <dimen name="dimen_brand_login_get_size">@dimen/y24</dimen>
+    <dimen name="dimen_brand_login_net_size">@dimen/y20</dimen>
+    <dimen name="dimen_brand_login_other_size">@dimen/y20</dimen>
+    <!--二维码宽-->
+    <dimen name="dimen_qrcode_width">@dimen/x114</dimen>
+
+    <!--卡片显示文字的大小-->
+    <dimen name="dimen_card_name">@dimen/y22</dimen>
+    <dimen name="dimen_cardDes_name">@dimen/y16</dimen>
+    <dimen name="dimen_cardBtn_name">@dimen/y28</dimen>
+
+    <!--卡片宽度和边距-->
+    <dimen name="dimen_card_width">@dimen/x200</dimen>
+    <dimen name="dimen_card_height">@dimen/y360</dimen>
+    <dimen name="dimen_card_margin_left">@dimen/x8</dimen>
+    <dimen name="dimen_card_margin_right">@dimen/x8</dimen>
+    <dimen name="dimen_card_margin_top">@dimen/y40</dimen>
+    <dimen name="dimen_card_margin_bottom">@dimen/y40</dimen>
+
+    <!--卡片上下的宽高-->
+    <dimen name="dimen_card_top_height">@dimen/y160</dimen>
+    <dimen name="dimen_card_bottom_height">@dimen/y160</dimen>
+
+    <!--卡片主ICON的宽高-->
+    <dimen name="dimen_card_icon_width">@dimen/x108</dimen>
+    <dimen name="dimen_card_icon_height">@dimen/y88</dimen>
+    <!--天气卡片的ICON宽高-->
+    <dimen name="dimen_card_weather_icon_width">@dimen/x128</dimen>
+    <dimen name="dimen_card_weather_icon_height">@dimen/y128</dimen>
+
+    <!--卡片主ICON的top边距-->
+    <dimen name="dimen_card_icon_top_margin">@dimen/y10</dimen>
+    <!--卡片文字边距-->
+    <dimen name="dimen_card_name_top">@dimen/y24</dimen>
+    <dimen name="dimen_card_des_top">@dimen/y4</dimen>
+    <dimen name="dimen_card_btn_bottom">@dimen/y24</dimen>
+    <!--卡片上按钮的宽高-->
+    <dimen name="dimen_card_btn_width">@dimen/x88</dimen>
+    <dimen name="dimen_card_btn_height">@dimen/y40</dimen>
+    <!--卡片按钮字体大小-->
+    <dimen name="dimen_card_btn_text_size">@dimen/y22</dimen>
+    <!--家和公司的图标的宽高-->
+    <dimen name="dimen_brand_home_icon_width">@dimen/x36</dimen>
+    <dimen name="dimen_brand_home_icon_height">@dimen/y40</dimen>
+    <dimen name="dimen_brand_company_icon_width">@dimen/x36</dimen>
+    <dimen name="dimen_brand_company_icon_height">@dimen/y40</dimen>
+
+    <!--卡片内容padding-->
+    <dimen name="dimen_card_content_padding">@dimen/x16</dimen>
+
+    <!--删除卡片的按钮参数-->
+    <dimen name="dimen_delete_btn_width">@dimen/x64</dimen>
+    <dimen name="dimen_delete_btn_height">@dimen/x64</dimen>
+    <dimen name="dimen_delete_btn_padding">@dimen/y16</dimen>
+
+    <!--天气详情的文字大小-->
+    <dimen name="dimen_weather_right_week">@dimen/x22</dimen>
+    <dimen name="dimen_weather_right_des">@dimen/x16</dimen>
+    <dimen name="dimen_weather_right_max">@dimen/x16</dimen>
+    <dimen name="dimen_weather_right_min">@dimen/x16</dimen>
+    <!--天气卡片图标大小-->
+    <dimen name="dimen_weather_right_icon_size">@dimen/x60</dimen>
+    <!--天气详情边距-->
+    <dimen name="dimen_weather_right_week_top">@dimen/y48</dimen>
+    <dimen name="dimen_weather_right_iv_top">@dimen/y17</dimen>
+    <dimen name="dimen_weather_right_des_top">@dimen/y6</dimen>
+    <dimen name="dimen_weather_right_max_bottom">@dimen/y32</dimen>
+    <dimen name="dimen_weather_right_min_bottom">@dimen/y32</dimen>
+
+    <!--天气详情Item的宽度-->
+    <dimen name="dimen_weather_right_item_width">@dimen/x150</dimen>
+
+    <!--品牌区域底部margin-->
+    <dimen name="dimen_indicator_margin_bottom">10dp</dimen>
+
+    <!--每个APP图标大小-->
+    <!--<dimen name="dimen_quick_app_size">@dimen/x80</dimen>-->
+    <dimen name="dimen_quick_app_margin">@dimen/x12</dimen>
+    <dimen name="dimen_all_app_icon_size">@dimen/x88</dimen>
+    <dimen name="dimen_all_app_name_size">@dimen/x20</dimen>
+
+    <!--快捷方式app宽高-->
+    <dimen name="dimen_quick_app_size">@dimen/x64</dimen>
+    <dimen name="dimen_app_close_icon_size">@dimen/x24</dimen>
+    <dimen name="dimen_quick_name_size">@dimen/x14</dimen>
+    <!--加号宽高-->
+    <dimen name="dimen_quick_plugin_size">@dimen/x64</dimen>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background_color"
+    android:orientation="horizontal">
+
+    <com.txznet.launcher.ui.widget.brand.BrandCardView
+        android:id="@+id/brand_view"
+        android:layout_width="@dimen/brand_widget_width"
+        android:layout_height="wrap_content" />
+
+    <include
+        layout="@layout/slide_recyer_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

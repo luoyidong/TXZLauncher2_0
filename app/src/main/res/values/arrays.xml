@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="colors">
+        <item>@color/color_fcc143</item>
+        <item>@color/color_40bcf9</item>
+        <item>@color/color_5250d3</item>
+        <item>@color/color_fd6c27</item>
+        <item>@color/color_b47ffe</item>
+        <item>@color/color_3bbcae</item>
+        <item>@color/color_89939f</item>
+        <item>@color/color_575d81</item>
+        <item>@color/color_be6e53</item>
+        <item>@color/color_2cd159</item>
+        <item>@color/color_008cff</item>
+        <item>@color/color_ff6976</item>
+    </integer-array>
+</resources>
