@@ -1,6 +1,5 @@
 package com.txznet.launcher;
 
-import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 
 import com.txznet.launcher.di.component.DaggerLauncherRepositeComponent;
@@ -8,9 +7,6 @@ import com.txznet.launcher.di.component.LauncherRepositeComponent;
 import com.txznet.launcher.di.module.ApplicationModule;
 import com.txznet.launcher.di.module.LauncherRespositeModule;
 
-/**
- * Created by TXZ-METEORLUO on 2017/3/18.
- */
 public class LauncherApp extends MultiDexApplication {
     private LauncherRepositeComponent mRepositeComponent;
 
@@ -27,5 +23,17 @@ public class LauncherApp extends MultiDexApplication {
 
     public LauncherRepositeComponent getLauncherRespositeComponent() {
         return mRepositeComponent;
+    }
+
+    public static abstract class Runnable1<T1> implements Runnable {
+        protected T1 mP1;
+
+        public Runnable1(T1 p1) {
+            mP1 = p1;
+        }
+
+        public void update(T1 p1) {
+            mP1 = p1;
+        }
     }
 }
