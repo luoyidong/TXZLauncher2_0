@@ -1,6 +1,7 @@
 package com.txznet.launcher.mv;
 
 import com.txznet.launcher.data.model.BaseModel;
+import com.txznet.launcher.ui.model.UiCard;
 import com.txznet.libmvp.LoadMvpView;
 import com.txznet.libmvp.RxMvpPresenter;
 
@@ -11,7 +12,13 @@ import java.util.List;
  */
 public interface LauncherContract {
     interface View extends LoadMvpView {
-        void showCards(List<BaseModel> cards);
+
+        //        void showCards(List<BaseModel> cards);
+        void showCards(List<UiCard> cards);
+
+        void notifyRemove(int pos);
+
+        void notifyAdd(int pos);
     }
 
     abstract class Presenter extends RxMvpPresenter<View> {

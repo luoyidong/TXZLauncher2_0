@@ -1,7 +1,7 @@
 package com.txznet.launcher.ui;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 
 import com.txznet.launcher.ui.widget.LoadingView;
 import com.txznet.libmvp.LoadMvpView;
@@ -9,7 +9,7 @@ import com.txznet.libmvp.LoadMvpView;
 /**
  * Created by TXZ-METEORLUO on 2017/3/29.
  */
-public abstract class BaseLoadingActivity extends AppCompatActivity implements LoadMvpView {
+public abstract class BaseLoadingActivity extends FragmentActivity implements LoadMvpView {
     private LoadingView mLoadingView;
 
     @Override

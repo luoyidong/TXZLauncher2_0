@@ -28,7 +28,9 @@ public class BaseModel {
     // 对应的类型
     public int type;
     public String packageName;
-    /** 界面元素 **/
+    /**
+     * 界面元素
+     **/
     public String name;
     public String desc;
     public int bgColor;

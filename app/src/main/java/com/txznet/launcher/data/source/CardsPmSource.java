@@ -1,12 +1,11 @@
 package com.txznet.launcher.data.source;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.content.pm.PackageManager;
 
 import com.txznet.launcher.data.api.CardsSourceApi;
 import com.txznet.launcher.data.model.BaseModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
@@ -24,5 +23,9 @@ public class CardsPmSource implements CardsSourceApi {
     @Override
     public Observable<List<BaseModel>> loadCards() {
         return null;
+    }
+
+    private void getAppsFromPhone() {
+        PackageManager pm = mContext.getPackageManager();
     }
 }

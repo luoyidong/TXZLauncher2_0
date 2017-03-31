@@ -1,11 +1,11 @@
 package com.txznet.launcher.ui.view;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,6 +19,11 @@ import com.txznet.launcher.LauncherApp;
 public class SlideRecyclerView extends RecyclerView {
     public static final int DEFAULT_SLIDE_FRAME = 50;
     public static final String TAG = SlideRecyclerView.class.getSimpleName();
+
+    private float mDownX, mDownY;
+    private boolean mIsCurItemSwipeOpen = false;
+    private int mLastSwipeOpenPosition = -1;
+    private SwipeLayout mLastSwipeItem;
 
     /**
      * 支持侧滑的接口
@@ -37,12 +42,12 @@ public class SlideRecyclerView extends RecyclerView {
         initial();
     }
 
-    public SlideRecyclerView(Context context, @Nullable AttributeSet attrs) {
+    public SlideRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initial();
     }
 
-    public SlideRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public SlideRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initial();
     }
@@ -74,7 +79,6 @@ public class SlideRecyclerView extends RecyclerView {
                         break;
                 }
                 mLastX = event.getX();
-                Log.d(TAG, "SlideRecyclerView onDrag event:" + event.getAction());
                 return true;
             }
         });
@@ -123,38 +127,6 @@ public class SlideRecyclerView extends RecyclerView {
         removeCallbacks(mSlideRunnable);
     }
 
-//    private void startSmooth(DragEvent event) {
-//        removeCallbacks(mSmoothRunnable);
-//        if (event.getX() <= 10) {
-//            mSmoothRunnable.update(true);
-//            post(mSmoothRunnable);
-//        }
-//    }
-//
-//    LauncherApp.Runnable1<Boolean> mSmoothRunnable = new LauncherApp.Runnable1<Boolean>(false) {
-//        @Override
-//        public void run() {
-//            Log.d("Smooth", "smooth run:" + mP1 + ",ScrollX:" + getScrollX());
-//            if (!mP1 /*|| getScrollX() <= 0*/) {
-//                removeCallbacks(this);
-//                return;
-//            }
-//
-//            smoothScrollBy(-40, 0);
-//            removeCallbacks(this);
-//            postDelayed(this, 20);
-//        }
-//    };
-//
-//    public void removeSmoothCallback() {
-//        removeCallbacks(mSmoothRunnable);
-//    }
-
-    private float mDownX, mDownY;
-    private boolean mIsCurItemSwipeOpen = false;
-    private int mLastSwipeOpenPosition = -1;
-    private SwipeLayout mLastSwipeItem;
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
@@ -163,13 +135,11 @@ public class SlideRecyclerView extends RecyclerView {
                 mDownY = ev.getY();
                 int touchingPosition = getChildAdapterPosition(findChildViewUnder(ev.getX(), ev.getY())); // 当前触摸的item
                 ViewHolder vh = findViewHolderForAdapterPosition(touchingPosition);
-                Log.d(TAG, "onInterceptTouchEvent DOWN touchingPosition:" + touchingPosition);
                 if (vh == null || vh.itemView == null) {
                     break;
                 }
 
                 if (vh.itemView instanceof SwipeLayout) {
-                    Log.d(this.getClass().getSimpleName(), "mLastSwipeOpenPosition " + mLastSwipeOpenPosition + ", touchingPosition " + touchingPosition);
                     if (mLastSwipeItem != null && mLastSwipeItem.isOpen() && touchingPosition != mLastSwipeOpenPosition) {
                         mLastSwipeItem.smoothClose();
                         mLastSwipeOpenPosition = -1;
@@ -191,45 +161,18 @@ public class SlideRecyclerView extends RecyclerView {
         boolean intercept = super.onInterceptTouchEvent(e);
         switch (e.getAction()) {
             case MotionEvent.ACTION_DOWN:
-//                mDownX = e.getX();
-//                mDownY = e.getY();
                 intercept = false;
-//                int touchingPosition = getChildAdapterPosition(findChildViewUnder(e.getX(), e.getY())); // 当前触摸的item
-//                ViewHolder vh = findViewHolderForAdapterPosition(touchingPosition);
-//                Log.d(TAG, "onInterceptTouchEvent DOWN touchingPosition:" + touchingPosition);
-//                if (vh == null || vh.itemView == null) {
-//                    break;
-//                }
-//
-//                if (vh.itemView instanceof SwipeLayout) {
-//                    Log.d(this.getClass().getSimpleName(), "mLastSwipeOpenPosition " + mLastSwipeOpenPosition + ", touchingPosition " + touchingPosition);
-//                    if (mLastSwipeItem != null && mLastSwipeItem.isOpen() && touchingPosition != mLastSwipeOpenPosition) {
-//                        mLastSwipeItem.smoothClose();
-//                        mLastSwipeOpenPosition = -1;
-//                    }
-//
-//                    mIsCurItemSwipeOpen = ((SwipeLayout) vh.itemView).isOpen(); // 检测当前按下的item是否已经展开
-//                    if (mIsCurItemSwipeOpen) {
-//                        mLastSwipeItem = (SwipeLayout) vh.itemView;
-//                        mLastSwipeOpenPosition = touchingPosition; // 记录当前展开item的索引
-//                    }
-//                }
                 break;
             case MotionEvent.ACTION_MOVE:
                 float disX = mDownX - e.getX();
                 float disY = mDownY - e.getY();
                 if (!mIsCurItemSwipeOpen && Math.abs(disX) > mTouchSlop && Math.abs(disX) > Math.abs(disY)) { // 横向滑动自己处理
-//                    intercept = true;
                 } else {
                     intercept = false;
                 }
                 break;
             case MotionEvent.ACTION_UP:
                 intercept = false;
-//                if (isEditMode()) {
-//                    intercept = true;
-//                    notifySetEditMode(findChildViewUnder(e.getX(), e.getY()), false);
-//                }
                 break;
         }
         return intercept;

@@ -5,7 +5,7 @@
     android:background="@color/main_background_color"
     android:orientation="horizontal">
 
-    <com.txznet.launcher.ui.widget.brand.BrandCardView
+    <com.txznet.launcher.ui.widget.brand.BrandView
         android:id="@+id/brand_view"
         android:layout_width="@dimen/brand_widget_width"
         android:layout_height="wrap_content" />

@@ -2,7 +2,7 @@ package com.txznet.launcher.mv;
 
 import com.txznet.launcher.data.CardsRepositeSource;
 import com.txznet.launcher.data.model.BaseModel;
-import com.txznet.libmvp.RxMvpPresenter;
+import com.txznet.launcher.ui.model.UiCard;
 
 import java.util.List;
 
@@ -26,6 +26,12 @@ public class LauncherPresenter extends LauncherContract.Presenter {
     }
 
     @Override
+    public void attachView(LauncherContract.View view) {
+        super.attachView(view);
+        loadCards();
+    }
+
+    @Override
     void loadCards() {
         loadCards(true);
     }
@@ -37,16 +43,21 @@ public class LauncherPresenter extends LauncherContract.Presenter {
 
         mCompositeSubscription.clear();
         mCompositeSubscription.add(mRepoSource.loadCards()
-                .flatMap(new Func1<List<BaseModel>, Observable<BaseModel>>() {
+                .flatMap(new Func1<List<BaseModel>, Observable<UiCard>>() {
                     @Override
-                    public Observable<BaseModel> call(List<BaseModel> baseModels) {
-                        return Observable.from(baseModels);
+                    public Observable<UiCard> call(List<BaseModel> baseModels) {
+                        return Observable.from(baseModels).flatMap(new Func1<BaseModel, Observable<UiCard>>() {
+                            @Override
+                            public Observable<UiCard> call(BaseModel model) {
+                                return Observable.just(convertToUiCard(model));
+                            }
+                        });
                     }
                 })
                 .toList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<BaseModel>>() {
+                .subscribe(new Subscriber<List<UiCard>>() {
                     @Override
                     public void onCompleted() {
                         if (showingLoading) {
@@ -60,12 +71,17 @@ public class LauncherPresenter extends LauncherContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(List<BaseModel> baseModels) {
+                    public void onNext(List<UiCard> baseModels) {
                         if (isViewActive()) {
                             getMvpView().showCards(baseModels);
                         }
                     }
                 }));
+    }
+
+    UiCard convertToUiCard(BaseModel bm) {
+        UiCard card = new UiCard();
+        return card;
     }
 
     @Override
