@@ -1,22 +1,29 @@
 package com.txznet.launcher.data.source;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.txznet.launcher.data.api.CardsRepoApi;
 import com.txznet.launcher.data.api.CardsSourceApi;
 import com.txznet.launcher.data.model.BaseModel;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Singleton;
 
 import rx.Observable;
 
 /**
  * Created by TXZ-METEORLUO on 2017/3/29.
  */
-public class CardsDbSource implements CardsSourceApi {
+@Singleton
+public class CardsDbSource implements CardsRepoApi {
 
-    @Override
-    public Observable<ArrayList<BaseModel>> queryCards() {
-        return null;
+    private Context mContext;
+
+    public CardsDbSource(Context context) {
+        mContext = context;
     }
 
     @Override
@@ -42,5 +49,10 @@ public class CardsDbSource implements CardsSourceApi {
     @Override
     public void saveCard(BaseModel bm) {
 
+    }
+
+    @Override
+    public Observable<List<BaseModel>> loadCards() {
+        return null;
     }
 }

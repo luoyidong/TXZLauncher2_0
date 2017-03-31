@@ -6,7 +6,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by TXZ-METEORLUO on 2017/3/29.
  */
 public class RxMvpPresenter<T extends MvpView> extends BasePresenter<T> {
-    CompositeSubscription mCompositeSubscription;
+    protected CompositeSubscription mCompositeSubscription;
 
     @Override
     public void attachView(T view) {

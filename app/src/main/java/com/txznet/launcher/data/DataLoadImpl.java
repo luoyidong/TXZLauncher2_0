@@ -13,6 +13,7 @@ import rx.Observable;
 /**
  * 数据加载器
  */
+@Deprecated
 public class DataLoadImpl implements DataLoadApi {
     private Context mContext;
 

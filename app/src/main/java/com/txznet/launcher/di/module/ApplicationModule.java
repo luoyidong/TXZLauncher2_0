@@ -30,10 +30,4 @@ public class ApplicationModule {
     Context provideContext() {
         return mApp;
     }
-
-    @Provides
-    @Singleton
-    CardsSourceApi provideRepoApi(CardsSourceApi api) {
-        return api;
-    }
 }

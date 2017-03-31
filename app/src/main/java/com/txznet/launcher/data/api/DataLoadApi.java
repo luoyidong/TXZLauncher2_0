@@ -4,11 +4,15 @@ import com.txznet.launcher.data.model.BaseModel;
 
 import java.util.List;
 
+import javax.inject.Singleton;
+
 import rx.Observable;
 
 /**
  * Created by TXZ-METEORLUO on 2017/3/30.
  */
+@Singleton
+@Deprecated
 public interface DataLoadApi {
 
     Observable<List<BaseModel>> loadFromPackageManager();

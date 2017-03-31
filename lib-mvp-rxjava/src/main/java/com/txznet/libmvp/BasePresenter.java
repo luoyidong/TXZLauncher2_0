@@ -7,11 +7,11 @@ public abstract class BasePresenter<T extends MvpView> implements MvpPresenter<T
 
     T mView;
 
-    boolean isViewActive() {
+    public boolean isViewActive() {
         return mView != null;
     }
 
-    T getMvpView() {
+    public T getMvpView() {
         return mView;
     }
 

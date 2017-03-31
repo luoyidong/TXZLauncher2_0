@@ -2,30 +2,36 @@ package com.txznet.launcher.data;
 
 import android.support.annotation.NonNull;
 
+import com.txznet.launcher.data.api.CardsRepoApi;
 import com.txznet.launcher.data.api.CardsSourceApi;
 import com.txznet.launcher.data.model.BaseModel;
+import com.txznet.launcher.di.Db;
+import com.txznet.launcher.di.Pm;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import rx.Observable;
 
 /**
  * Created by TXZ-METEORLUO on 2017/3/30.
  */
-public class CardsRepositeSource implements CardsSourceApi {
+@Singleton
+public class CardsRepositeSource implements CardsRepoApi {
     private CardsSourceApi mPmSource;
-    private CardsSourceApi mDbSource;
+    private CardsRepoApi mDbSource;
 
     @Inject
-    public CardsRepositeSource(@NonNull CardsSourceApi pm, @NonNull CardsSourceApi db) {
+    public CardsRepositeSource(@Pm @NonNull CardsSourceApi pm, @Db @NonNull CardsSourceApi db) {
         this.mPmSource = pm;
-        this.mDbSource = db;
+        this.mDbSource = (CardsRepoApi) db;
     }
 
     @Override
-    public Observable<ArrayList<BaseModel>> queryCards() {
+    public Observable<List<BaseModel>> loadCards() {
         return null;
     }
 

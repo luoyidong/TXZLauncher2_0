@@ -1,5 +1,6 @@
 package com.txznet.launcher.di.component;
 
+import com.txznet.launcher.data.CardsRepositeSource;
 import com.txznet.launcher.di.module.ApplicationModule;
 import com.txznet.launcher.di.module.LauncherRespositeModule;
 
@@ -13,4 +14,6 @@ import dagger.Component;
 @Singleton
 @Component(modules = {LauncherRespositeModule.class, ApplicationModule.class})
 public interface LauncherRepositeComponent {
+
+    CardsRepositeSource getCardsRepositeSource();
 }

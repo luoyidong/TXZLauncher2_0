@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.txznet.launcher.data.model.BaseModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import rx.Observable;
 
@@ -13,15 +14,6 @@ import rx.Observable;
  */
 public interface CardsSourceApi {
 
-    Observable<ArrayList<BaseModel>> queryCards();
+    Observable<List<BaseModel>> loadCards();
 
-    void swapCards(int before, int after);
-
-    void closeCard(@NonNull BaseModel bm);
-
-    void closeCard(int pos);
-
-    void addCard(BaseModel bm);
-
-    void saveCard(BaseModel bm);
 }
