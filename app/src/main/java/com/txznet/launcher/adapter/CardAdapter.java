@@ -2,6 +2,7 @@ package com.txznet.launcher.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.txznet.launcher.ui.model.UiCard;
@@ -30,11 +31,14 @@ public abstract class CardAdapter extends BaseSwipeAdapter<CardAdapter.CardViewH
 
     @Override
     public CardViewHolder onCompatCreateViewHolder(View contentView, int viewType) {
+        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(200, RecyclerView.LayoutParams.MATCH_PARENT);
+        contentView.setLayoutParams(lp);
         return new CardViewHolder(contentView);
     }
 
     @Override
     public void onBindViewHolder(CardViewHolder holder, int position) {
+        Log.d("onBindViewHolder","onBindViewHolder");
         UiCard model = mCards.get(position);
         holder.attachModel(model);
     }

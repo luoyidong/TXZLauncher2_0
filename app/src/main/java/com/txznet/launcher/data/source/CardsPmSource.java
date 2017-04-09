@@ -1,19 +1,21 @@
 package com.txznet.launcher.data.source;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 import com.txznet.launcher.data.api.CardsSourceApi;
-import com.txznet.launcher.data.model.BaseModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by TXZ-METEORLUO on 2017/3/18.
  */
-public class CardsPmSource implements CardsSourceApi {
+public class CardsPmSource implements CardsSourceApi<String> {
     private Context mContext;
 
     public CardsPmSource(Context context) {
@@ -21,11 +23,20 @@ public class CardsPmSource implements CardsSourceApi {
     }
 
     @Override
-    public Observable<List<BaseModel>> loadCards() {
-        return null;
-    }
+    public Observable<List<String>> loadCards() {
+        return Observable.create(new Observable.OnSubscribe<List<String>>() {
+            @Override
+            public void call(Subscriber<? super List<String>> subscriber) {
+                List<String> pks = new ArrayList<>();
+                PackageManager pm = mContext.getPackageManager();
+                List<PackageInfo> pis = pm.getInstalledPackages(0);
+                for (PackageInfo info : pis) {
+                    pks.add(info.packageName);
+                }
 
-    private void getAppsFromPhone() {
-        PackageManager pm = mContext.getPackageManager();
+                subscriber.onNext(pks);
+                subscriber.onCompleted();
+            }
+        });
     }
 }

@@ -4,14 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.txznet.launcher.data.model.BaseModel;
 
-import java.util.List;
-
-import rx.Observable;
-
 /**
  * Created by TXZ-METEORLUO on 2017/3/31.
  */
-public interface CardsRepoApi extends CardsSourceApi {
+public interface CardsRepoApi<T> extends CardsSourceApi<T> {
 
     void swapCards(int before, int after);
 
@@ -22,4 +18,6 @@ public interface CardsRepoApi extends CardsSourceApi {
     void addCard(BaseModel bm);
 
     void saveCard(BaseModel bm);
+
+    boolean isDbReady();
 }

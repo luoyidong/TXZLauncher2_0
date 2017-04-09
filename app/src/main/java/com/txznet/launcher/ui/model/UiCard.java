@@ -7,8 +7,12 @@ import android.graphics.drawable.Drawable;
  */
 public class UiCard {
     public int type;
+    // 是否虚拟，虚拟后将缩放，用于占位
+    public boolean virtual;
+
     public String name;
     public String desc;
+    public String packageName;
     public int backgroundColor;
     public Drawable iconDrawable;
 }
