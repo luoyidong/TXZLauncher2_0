@@ -3,18 +3,15 @@ package com.txznet.launcher.ui;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.txznet.launcher.LauncherApp;
 import com.txznet.launcher.R;
-import com.txznet.launcher.adapter.CardAdapter;
+import com.txznet.launcher.adapter.CardViewAdapter;
 import com.txznet.launcher.di.component.DaggerLauncherComponent;
 import com.txznet.launcher.mv.LauncherContract;
 import com.txznet.launcher.mv.LauncherPresenter;
 import com.txznet.launcher.ui.model.UiCard;
 import com.txznet.launcher.ui.view.SlideRecyclerView;
-import com.txznet.launcher.ui.widget.BaseCardView;
 
 import java.util.List;
 
@@ -32,7 +29,7 @@ public class MainActivity extends BaseLoadingActivity implements LauncherContrac
     @BindView(R.id.card_recyclerView)
     SlideRecyclerView mRecyclerView;
 
-    private CardAdapter mAdapter;
+    private CardViewAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,22 +67,11 @@ public class MainActivity extends BaseLoadingActivity implements LauncherContrac
     @Override
     public void showCards(List<UiCard> cards) {
         if (mAdapter == null) {
-            mAdapter = new CardAdapter(this, cards) {
-                @Override
-                public View createViewByType(ViewGroup parent, int viewType) {
-                    return createView(parent, viewType);
-                }
-            };
-
+            mAdapter = new CardViewAdapter(this, cards);
             mRecyclerView.setAdapter(mAdapter);
         } else {
             mAdapter.replaceData(cards);
         }
-    }
-
-    private View createView(ViewGroup parent, int viewType) {
-        // TODO
-        return new BaseCardView(MainActivity.this);
     }
 
     @Override

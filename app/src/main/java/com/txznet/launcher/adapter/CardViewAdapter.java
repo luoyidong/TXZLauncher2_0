@@ -2,25 +2,22 @@ package com.txznet.launcher.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.txznet.launcher.ui.model.UiCard;
 import com.txznet.launcher.ui.widget.BaseCardView;
-import com.txznet.launcher.ui.widget.swipe.SwipeFrameLayout;
 
 import java.util.List;
 
 /**
- * Created by TXZ-METEORLUO on 2017/3/31.
+ * Created by TXZ-METEORLUO on 2017/4/12.
  */
-@Deprecated
-public abstract class CardAdapter extends BaseSwipeAdapter<CardAdapter.CardViewHolder> {
+public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.CardViewHolder> {
     private Context mContext;
     private List<UiCard> mCards;
 
-    public CardAdapter(Context context, List<UiCard> cards) {
-        super(context);
+    public CardViewAdapter(Context context, List<UiCard> cards) {
         this.mContext = context;
         this.mCards = cards;
     }
@@ -30,16 +27,18 @@ public abstract class CardAdapter extends BaseSwipeAdapter<CardAdapter.CardViewH
         this.notifyDataSetChanged();
     }
 
+    public View createViewByType(ViewGroup parent, int viewType) {
+        // TODO 根据类型选择View
+        return new BaseCardView(mContext);
+    }
+
     @Override
-    public CardViewHolder onCompatCreateViewHolder(View contentView, int viewType) {
-        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(200, RecyclerView.LayoutParams.MATCH_PARENT);
-        contentView.setLayoutParams(lp);
-        return new CardViewHolder(contentView);
+    public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new CardViewHolder(createViewByType(parent, viewType));
     }
 
     @Override
     public void onBindViewHolder(CardViewHolder holder, int position) {
-        Log.d("onBindViewHolder","onBindViewHolder");
         UiCard model = mCards.get(position);
         holder.attachModel(model);
     }
@@ -70,12 +69,8 @@ public abstract class CardAdapter extends BaseSwipeAdapter<CardAdapter.CardViewH
         }
 
         public void attachModel(UiCard model) {
-            if (itemView instanceof SwipeFrameLayout) {
-                SwipeFrameLayout sfly = (SwipeFrameLayout) itemView;
-                View view = sfly.getContentView();
-                if (view instanceof BaseCardView) {
-                    ((BaseCardView) view).bindModel(model);
-                }
+            if (itemView instanceof BaseCardView) {
+                ((BaseCardView) itemView).bindModel(model);
             }
         }
     }

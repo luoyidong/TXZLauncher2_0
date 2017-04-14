@@ -1,10 +1,9 @@
 package com.txznet.launcher.mv;
 
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.txznet.launcher.data.CardsRepositeSource;
 import com.txznet.launcher.data.model.BaseModel;
+import com.txznet.launcher.data.repos.CardsRepositeSource;
 import com.txznet.launcher.module.PackageManager;
 import com.txznet.launcher.ui.model.UiCard;
 
@@ -76,7 +75,6 @@ public class LauncherPresenter extends LauncherContract.Presenter {
                 .subscribe(new Subscriber<List<UiCard>>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(TAG, "onCompleted");
                         if (showingLoading) {
                             getMvpView().dismissLoading();
                         }
@@ -84,13 +82,11 @@ public class LauncherPresenter extends LauncherContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d(TAG, "onError");
                         getMvpView().showError(e);
                     }
 
                     @Override
                     public void onNext(List<UiCard> uicards) {
-                        Log.d(TAG, "onNext baseModels:" + uicards + ",size:" + (uicards != null ? uicards.size() : 0));
                         if (isViewActive()) {
                             getMvpView().showCards(uicards);
                         }

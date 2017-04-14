@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.FrameLayout;
 
+import com.txznet.launcher.R;
 import com.txznet.launcher.ui.view.SlideRecyclerView;
 
 /**
@@ -18,6 +19,7 @@ public class SwipeFrameLayout extends FrameLayout implements SlideRecyclerView.S
     private float mScrollOffset;
     private int mScaledTouchSlop;
     private int mSwipeMaxHeight;
+    private boolean mIsEnableMoveUp = true;
 
     private View mContentView;
 
@@ -32,13 +34,22 @@ public class SwipeFrameLayout extends FrameLayout implements SlideRecyclerView.S
     public SwipeFrameLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        mScaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+        init();
+    }
+
+    protected void init() {
+        mScaledTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+        mSwipeMaxHeight = getContext().getResources().getDimensionPixelSize(R.dimen.y120);
     }
 
     public void setContentView(View contentView) {
         mContentView = contentView;
         removeAllViews();
         addView(contentView);
+    }
+
+    public void setBottomOffsetHeight(int offsetHeight) {
+        mSwipeMaxHeight = offsetHeight;
     }
 
     public View getContentView() {
@@ -62,8 +73,12 @@ public class SwipeFrameLayout extends FrameLayout implements SlideRecyclerView.S
         mContentView.scrollTo(0, (int) mScrollOffset);
     }
 
+    public void setEnableMoveUpFlag(boolean isEnable) {
+        mIsEnableMoveUp = isEnable;
+    }
+
     public boolean isEnableMoveUp() {
-        return true;
+        return mIsEnableMoveUp;
     }
 
     @Override

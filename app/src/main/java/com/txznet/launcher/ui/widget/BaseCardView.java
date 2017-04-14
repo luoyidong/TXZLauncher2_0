@@ -6,18 +6,18 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.txznet.launcher.R;
 import com.txznet.launcher.mv.CardViewContract;
 import com.txznet.launcher.ui.model.UiCard;
+import com.txznet.launcher.ui.widget.swipe.SwipeFrameLayout;
 
 /**
  * Created by TXZ-METEORLUO on 2017/3/31.
  */
-public class BaseCardView extends FrameLayout implements CardViewContract.View {
+public class BaseCardView extends SwipeFrameLayout implements CardViewContract.View {
     private TextView mNameTv;
     private TextView mDescTv;
     private ImageView mIconIv;
@@ -42,12 +42,11 @@ public class BaseCardView extends FrameLayout implements CardViewContract.View {
     }
 
     public void initView() {
-        removeAllViews();
         int layoutId = getLayoutId();
         View view = View.inflate(getContext(), layoutId, null);
         findViewById(view);
         initWidget();
-        addView(view);
+        setContentView(view);
     }
 
     // 获取所属的布局文件Id

@@ -1,6 +1,6 @@
 package com.txznet.launcher.di.component;
 
-import com.txznet.launcher.data.CardsRepositeSource;
+import com.txznet.launcher.data.repos.CardsRepositeSource;
 import com.txznet.launcher.di.module.ApplicationModule;
 import com.txznet.launcher.di.module.LauncherRespositeModule;
 

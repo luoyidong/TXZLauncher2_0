@@ -11,6 +11,7 @@ import com.txznet.launcher.ui.widget.swipe.SwipeFrameLayout;
 /**
  * Created by TXZ-METEORLUO on 2017/3/31.
  */
+@Deprecated
 public abstract class BaseSwipeAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
     protected Context mContext;
 

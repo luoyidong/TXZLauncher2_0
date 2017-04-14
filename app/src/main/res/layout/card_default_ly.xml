@@ -80,7 +80,6 @@
         android:layout_width="@dimen/dimen_delete_btn_width"
         android:layout_height="@dimen/dimen_delete_btn_height"
         android:layout_gravity="bottom|center_horizontal"
-        android:background="@null"
         android:paddingBottom="@dimen/dimen_delete_btn_padding"
         android:src="@drawable/card_delete_btn" />
 </LinearLayout>

@@ -1,7 +1,8 @@
-package com.txznet.launcher.data;
+package com.txznet.launcher.data.repos;
 
 import android.support.annotation.NonNull;
 
+import com.txznet.launcher.data.LocalCardCreator;
 import com.txznet.launcher.data.api.CardsRepoApi;
 import com.txznet.launcher.data.api.CardsSourceApi;
 import com.txznet.launcher.data.model.BaseModel;

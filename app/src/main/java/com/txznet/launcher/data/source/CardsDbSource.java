@@ -17,7 +17,6 @@ import rx.Observable;
  */
 @Singleton
 public class CardsDbSource implements CardsRepoApi<BaseModel> {
-
     private Context mContext;
 
     public CardsDbSource(Context context) {
