@@ -24,7 +24,7 @@ import javax.inject.Inject;
 /**
  * Created by TXZ-METEORLUO on 2017/3/31.
  */
-public class BaseCardView<T extends RxMvpPresenter> extends SwipeFrameLayout implements CardContract.View {
+public class BaseCardView<T extends CardContract.Presenter> extends SwipeFrameLayout implements CardContract.View {
     protected TextView mNameTv;
     protected TextView mDescTv;
     protected ImageView mIconIv;
@@ -62,7 +62,7 @@ public class BaseCardView<T extends RxMvpPresenter> extends SwipeFrameLayout imp
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if(mPresenter != null){
+        if (mPresenter != null) {
             mPresenter.attachView(this);
         }
     }
@@ -70,7 +70,7 @@ public class BaseCardView<T extends RxMvpPresenter> extends SwipeFrameLayout imp
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if(mPresenter != null){
+        if (mPresenter != null) {
             mPresenter.detachView();
         }
 
@@ -96,16 +96,20 @@ public class BaseCardView<T extends RxMvpPresenter> extends SwipeFrameLayout imp
             mCardView.setCardBackgroundColor(Color.TRANSPARENT);
         }
 
-        mCardLy.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickBlank();
-            }
-        });
+        if (mCardLy != null) {
+            mCardLy.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickBlank();
+                }
+            });
+        }
     }
 
-    public void onClickBlank(){
-
+    public void onClickBlank() {
+        if (mPresenter != null) {
+            mPresenter.onClickBlank();
+        }
     }
 
     public void bindModel(UiCard model) {

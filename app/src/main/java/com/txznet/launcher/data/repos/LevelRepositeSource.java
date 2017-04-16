@@ -63,7 +63,7 @@ public abstract class LevelRepositeSource<T> extends BaseDataRepo<T, Integer> {
     }
 
     @Override
-    public Observable<T> getNewData() {
+    protected Observable<T> getNewData() {
         DataApi<T> inter = getCurrInterface();
         return inter.reqData(true);
     }

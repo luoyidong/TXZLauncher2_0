@@ -21,7 +21,7 @@ public interface CardContract {
         void setBgColor(int color);
     }
 
-    abstract class Presenter<T extends View> extends RxMvpPresenter<T>{
+    abstract class Presenter<T extends View> extends RxMvpPresenter<T> {
 
         public abstract void onClickBlank();
 

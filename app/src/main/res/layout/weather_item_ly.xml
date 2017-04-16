@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dimen_weather_right_item_width"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/week_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dimen_weather_right_week_top"
+        android:text="周三"
+        android:textColor="@color/color_weather_right_week"
+        android:textSize="@dimen/dimen_weather_right_week" />
+
+    <ImageView
+        android:id="@+id/weather_iv"
+        android:layout_width="@dimen/dimen_weather_right_icon_size"
+        android:layout_height="@dimen/dimen_weather_right_icon_size"
+        android:layout_below="@id/week_tv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dimen_weather_right_iv_top"
+        android:scaleType="centerInside" />
+
+    <TextView
+        android:id="@+id/weather_des_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weather_iv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dimen_weather_right_des_top"
+        android:text="晴"
+        android:textColor="@color/color_weather_right_des"
+        android:textSize="@dimen/dimen_weather_right_des" />
+
+    <TextView
+        android:id="@+id/min_weather_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dimen_weather_right_min_bottom"
+        android:text="18℃"
+        android:textColor="@color/color_weather_right_min"
+        android:textSize="@dimen/dimen_weather_right_min" />
+
+
+    <TextView
+        android:id="@+id/max_weather_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/min_weather_tv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dimen_weather_right_max_bottom"
+        android:text="22℃"
+        android:textColor="@color/color_weather_right_max"
+        android:textSize="@dimen/dimen_weather_right_max" />
+</RelativeLayout>

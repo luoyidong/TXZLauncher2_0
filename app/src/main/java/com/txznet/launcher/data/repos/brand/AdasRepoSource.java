@@ -11,7 +11,7 @@ import rx.Observable;
 public class AdasRepoSource<T, F extends Integer> extends BaseDataRepo<T, F> {
 
     @Override
-    public Observable<T> getNewData() {
+    protected Observable<T> getNewData() {
         return null;
     }
 

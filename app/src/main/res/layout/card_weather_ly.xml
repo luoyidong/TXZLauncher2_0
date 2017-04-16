@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:minHeight="@dimen/dimen_card_height"
+    android:minWidth="@dimen/dimen_card_width"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dimen_card_margin_bottom"
+        android:layout_marginTop="@dimen/dimen_card_margin_top">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/card_ly"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_default_card_bg"
+                android:gravity="center"
+                android:minWidth="@dimen/dimen_card_width"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/top_icon_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/icon_iv"
+                        android:layout_width="@dimen/dimen_card_weather_icon_width"
+                        android:layout_height="@dimen/dimen_card_weather_icon_height"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/weather_na" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/card_name_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/dimen_card_name_top"
+                        android:text="未知"
+                        android:textColor="@color/color_card_name"
+                        android:textSize="@dimen/dimen_card_name" />
+
+                    <com.txznet.launcher.ui.view.MarqueeTextView
+                        android:id="@+id/card_des_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/card_name_tv"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/dimen_card_des_top"
+                        android:clickable="true"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:maxEms="10"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="暂时获取不到天气"
+                        android:textColor="@color/color_cardDes_name"
+                        android:textSize="@dimen/dimen_cardDes_name" />
+
+                    <TextView
+                        android:id="@+id/city_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="@dimen/dimen_card_btn_bottom"
+                        android:drawableLeft="@drawable/icon_weather_loccity"
+                        android:gravity="center_vertical"
+                        android:text="未知"
+                        android:textColor="@color/color_cardBtn_text"
+                        android:textSize="@dimen/dimen_card_btn_text_size" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <com.txznet.launcher.ui.view.weather.WeatherLayout
+                android:id="@+id/weather_ly"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/color_expand_bg"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <ImageView
+        android:id="@+id/card_delete_btn"
+        android:layout_width="@dimen/dimen_delete_btn_width"
+        android:layout_height="@dimen/dimen_delete_btn_height"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@null"
+        android:paddingBottom="@dimen/dimen_delete_btn_padding"
+        android:src="@drawable/card_delete_btn" />
+
+</LinearLayout>

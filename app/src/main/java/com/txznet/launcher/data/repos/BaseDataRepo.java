@@ -11,11 +11,11 @@ import rx.Observable;
 
 /**
  * Created by TXZ-METEORLUO on 2017/4/14.
- * 这一层负责做缓存管理
+ * TODO 这一层负责做缓存管理(DataApi这一层其实不能是rxjava数据层，应该是真正的获取数据层，不应该介入rxJava)
  */
 public abstract class BaseDataRepo<T, F extends Integer> implements DataApi<T> {
     private static final String TAG = BaseDataRepo.class.getSimpleName();
-
+    private boolean mUseCache = false;
     protected F mCurrReqKey;
     private Map<F, Observable<T>> mCacheData;
 
@@ -39,9 +39,13 @@ public abstract class BaseDataRepo<T, F extends Integer> implements DataApi<T> {
     /**
      * 获取真实的数据
      */
-    public abstract Observable<T> getNewData();
+    protected abstract Observable<T> getNewData();
 
-    public void saveToCacheData(F key, Observable<T> data) {
+    protected void saveToCacheData(F key, Observable<T> data) {
+        if (!mUseCache) {
+            return;
+        }
+
         if (mCacheData == null) {
             mCacheData = new HashMap<>();
         }
@@ -51,7 +55,11 @@ public abstract class BaseDataRepo<T, F extends Integer> implements DataApi<T> {
         mCacheData.put(key, data);
     }
 
-    public Observable<T> getCacheDataByKey(F key) {
+    protected Observable<T> getCacheDataByKey(F key) {
+        if (!mUseCache) {
+            return null;
+        }
+
         if (mCacheData == null) {
             return null;
         }

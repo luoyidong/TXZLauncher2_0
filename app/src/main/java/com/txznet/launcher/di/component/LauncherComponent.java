@@ -12,7 +12,7 @@ import dagger.Component;
  * Created by TXZ-METEORLUO on 2017/3/30.
  */
 @CardScope
-@Component(dependencies = LauncherRepositeComponent.class, modules = LauncherModule.class)
+@Component(dependencies = {LauncherRepositeComponent.class, PresenterComponent.class}, modules = LauncherModule.class)
 public interface LauncherComponent {
 
     void inject(MainActivity activity);
