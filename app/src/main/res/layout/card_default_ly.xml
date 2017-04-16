@@ -48,7 +48,6 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/dimen_card_name_top"
-                    android:text="导航"
                     android:textColor="@color/color_card_name"
                     android:textSize="@dimen/dimen_card_name" />
 
@@ -59,7 +58,6 @@
                     android:layout_below="@id/card_name_tv"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/dimen_card_des_top"
-                    android:text="百度导航"
                     android:textColor="@color/color_cardDes_name"
                     android:textSize="@dimen/dimen_cardDes_name" />
 

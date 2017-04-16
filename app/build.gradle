@@ -21,7 +21,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
@@ -32,8 +32,12 @@ dependencies {
     compile 'com.google.dagger:dagger:2.2'
     compile 'com.google.android:multidex:0.1'
     compile project(':lib-mvp-rxjava')
-
+    compile 'com.android.support:palette-v7:25.1.0'
     // spots-dialog
     // https://github.com/d-max/spots-dialog
     compile 'com.github.d-max:spots-dialog:0.4@aar'
+    compile files('libs/TXZ_SDK.jar')
+    compile files('libs/universal-image-loader-1.9.3.jar')
+    compile files('libs/ormlite-android-4.48.jar')
+    compile files('libs/ormlite-core-4.48.jar')
 }

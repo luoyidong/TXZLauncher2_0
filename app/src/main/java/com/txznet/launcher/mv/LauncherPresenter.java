@@ -1,6 +1,7 @@
 package com.txznet.launcher.mv;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.txznet.launcher.data.model.BaseModel;
 import com.txznet.launcher.data.repos.CardsRepositeSource;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -46,6 +48,12 @@ public class LauncherPresenter extends LauncherContract.Presenter {
             getMvpView().showLoading();
         }
 
+        Observable<List<BaseModel>> tmpData = mRepoSource.loadCards();
+        if (tmpData == null) {
+            getMvpView().showError(new NullPointerException("RepoSource loadCards return null!"));
+            return;
+        }
+
         mCompositeSubscription.clear();
         mCompositeSubscription.add(mRepoSource.loadCards()
 //                .flatMap(new Func1<List<BaseModel>, Observable<UiCard>>() {
@@ -75,6 +83,7 @@ public class LauncherPresenter extends LauncherContract.Presenter {
                 .subscribe(new Subscriber<List<UiCard>>() {
                     @Override
                     public void onCompleted() {
+                        Log.d(TAG, "onCompleted");
                         if (showingLoading) {
                             getMvpView().dismissLoading();
                         }
@@ -82,11 +91,13 @@ public class LauncherPresenter extends LauncherContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.d(TAG, "onError");
                         getMvpView().showError(e);
                     }
 
                     @Override
                     public void onNext(List<UiCard> uicards) {
+                        Log.d(TAG, "onNext:" + uicards);
                         if (isViewActive()) {
                             getMvpView().showCards(uicards);
                         }

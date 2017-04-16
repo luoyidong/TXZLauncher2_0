@@ -2,7 +2,7 @@ package com.txznet.launcher.data.repos;
 
 import android.util.Log;
 
-import com.txznet.launcher.data.api.DataInterface;
+import com.txznet.launcher.data.api.DataApi;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ import rx.Observable;
  * Created by TXZ-METEORLUO on 2017/4/14.
  * 这一层负责做缓存管理
  */
-public abstract class BaseDataRepo<T, F extends Integer> implements DataInterface<T> {
+public abstract class BaseDataRepo<T, F extends Integer> implements DataApi<T> {
     private static final String TAG = BaseDataRepo.class.getSimpleName();
 
     protected F mCurrReqKey;

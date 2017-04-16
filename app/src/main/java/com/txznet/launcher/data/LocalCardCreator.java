@@ -20,9 +20,9 @@ public class LocalCardCreator implements CardCreateApi {
 
     @Override
     public BaseModel createCard(String packageName) {
-        BaseModel bm = new BaseModel();
-        bm.packageName = packageName;
         boolean isSystemApp = PackageManager.getInstance().isSystemApp(packageName);
+        BaseModel bm = new BaseModel(packageName,isSystemApp);
+        bm.packageName = packageName;
 
         // TODO 测试方法
         return bm;

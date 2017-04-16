@@ -22,8 +22,6 @@ public class SlideRecyclerView extends RecyclerView {
 
     private float mDownX, mDownY;
     private boolean mIsCurItemSwipeOpen = false;
-    private int mLastSwipeOpenPosition = -1;
-    private SwipeLayout mLastSwipeItem;
 
     /**
      * 支持侧滑的接口
@@ -56,75 +54,6 @@ public class SlideRecyclerView extends RecyclerView {
 
     private void initial() {
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
-
-        setOnDragListener(new View.OnDragListener() {
-            private float mLastX;
-
-            @Override
-            public boolean onDrag(View v, DragEvent event) {
-                switch (event.getAction()) {
-                    case DragEvent.ACTION_DRAG_EXITED:
-                        if (mLastX < 1) { // 向左移动
-                            slideLeft(event);
-                        } else { // 向右移动
-                            slideRight(event);
-                        }
-                        break;
-                    case DragEvent.ACTION_DRAG_LOCATION:
-                        return false;
-                    case DragEvent.ACTION_DROP:
-                        return false;
-                    case DragEvent.ACTION_DRAG_ENTERED:
-                        removeCallback();
-                        break;
-                }
-                mLastX = event.getX();
-                return true;
-            }
-        });
-    }
-
-    private void slideLeft(DragEvent event) {
-        mSlideRunnable.update(true);
-        removeCallback();
-        postDelayed(mSlideRunnable, 0);
-    }
-
-    private void slideRight(DragEvent event) {
-        mSlideRunnable.update(false);
-        removeCallback();
-        postDelayed(mSlideRunnable, 0);
-    }
-
-    LauncherApp.Runnable1<Boolean> mSlideRunnable = new LauncherApp.Runnable1<Boolean>(null) {
-        @Override
-        public void run() {
-            if (mP1 == null) {
-                removeCallback();
-                return;
-            }
-            LinearLayoutManager mLyManager = (LinearLayoutManager) getLayoutManager();
-            if (mP1) {
-                if (mLyManager.findFirstCompletelyVisibleItemPosition() == 0) {
-                    removeCallback();
-                    return;
-                }
-            } else {
-                if (mLyManager.findLastCompletelyVisibleItemPosition() == getAdapter().getItemCount() - 1) {
-                    removeCallback();
-                    return;
-                }
-            }
-
-            int ratio = mP1 ? -1 : 1;
-            smoothScrollBy(ratio * DEFAULT_SLIDE_FRAME, 0);
-            removeCallback();
-            postDelayed(this, 200);
-        }
-    };
-
-    public void removeCallback() {
-        removeCallbacks(mSlideRunnable);
     }
 
     @Override
@@ -133,22 +62,18 @@ public class SlideRecyclerView extends RecyclerView {
             case MotionEvent.ACTION_DOWN:
                 mDownX = ev.getX();
                 mDownY = ev.getY();
-                int touchingPosition = getChildAdapterPosition(findChildViewUnder(ev.getX(), ev.getY())); // 当前触摸的item
-                ViewHolder vh = findViewHolderForAdapterPosition(touchingPosition);
-                if (vh == null || vh.itemView == null) {
-                    break;
-                }
+                View child = findChildViewUnder(mDownX, mDownY);
+                int pos = getChildAdapterPosition(child);
 
-                if (vh.itemView instanceof SwipeLayout) {
-                    if (mLastSwipeItem != null && mLastSwipeItem.isOpen() && touchingPosition != mLastSwipeOpenPosition) {
-                        mLastSwipeItem.smoothClose();
-                        mLastSwipeOpenPosition = -1;
-                    }
-
-                    mIsCurItemSwipeOpen = ((SwipeLayout) vh.itemView).isOpen(); // 检测当前按下的item是否已经展开
-                    if (mIsCurItemSwipeOpen) {
-                        mLastSwipeItem = (SwipeLayout) vh.itemView;
-                        mLastSwipeOpenPosition = touchingPosition; // 记录当前展开item的索引
+                int childCount = getLayoutManager().getChildCount();
+                for (int i = 0; i < childCount; i++) {
+                    View v = getChildAt(i);
+                    int lastPos = getChildAdapterPosition(v);
+                    if (v != null && v instanceof SwipeLayout) {
+                        if (((SwipeLayout) v).isOpen() && lastPos != pos) {
+                            ((SwipeLayout) v).smoothClose();
+                            break;
+                        }
                     }
                 }
                 break;

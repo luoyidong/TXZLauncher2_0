@@ -1,6 +1,8 @@
 package com.txznet.launcher.di.component;
 
 import com.txznet.launcher.data.repos.CardsRepositeSource;
+import com.txznet.launcher.data.repos.music.MusicLevelRepoSource;
+import com.txznet.launcher.data.repos.weather.WeatherLevelRepoSource;
 import com.txznet.launcher.di.module.ApplicationModule;
 import com.txznet.launcher.di.module.LauncherRespositeModule;
 
@@ -16,4 +18,8 @@ import dagger.Component;
 public interface LauncherRepositeComponent {
 
     CardsRepositeSource getCardsRepositeSource();
+
+    MusicLevelRepoSource getMusicRepoSource();
+
+    WeatherLevelRepoSource getWeatherRepoSource();
 }

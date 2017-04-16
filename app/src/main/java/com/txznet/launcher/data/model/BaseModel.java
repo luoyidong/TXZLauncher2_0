@@ -1,9 +1,11 @@
 package com.txznet.launcher.data.model;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by TXZ-METEORLUO on 2017/3/22.
  */
-public class BaseModel {
+public class BaseModel extends AppInfo {
     // 通知（仅仅用于展示）
     public static final int TYPE_NOTIFY = 1;
     // 第三方应用
@@ -27,7 +29,6 @@ public class BaseModel {
 
     // 对应的类型
     public int type;
-    public String packageName;
     /**
      * 界面元素
      **/
@@ -35,4 +36,8 @@ public class BaseModel {
     public String desc;
     public int bgColor;
     public int btnType;
+
+    public BaseModel(@NonNull String packageName, boolean isSystemApp) {
+        super(packageName, isSystemApp);
+    }
 }

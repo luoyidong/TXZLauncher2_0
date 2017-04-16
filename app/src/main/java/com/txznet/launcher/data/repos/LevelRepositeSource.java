@@ -2,7 +2,7 @@ package com.txznet.launcher.data.repos;
 
 import android.util.Log;
 
-import com.txznet.launcher.data.api.DataInterface;
+import com.txznet.launcher.data.api.DataApi;
 
 import rx.Observable;
 
@@ -12,9 +12,9 @@ import rx.Observable;
 public abstract class LevelRepositeSource<T> extends BaseDataRepo<T, Integer> {
     private static final String TAG = LevelRepositeSource.class.getSimpleName();
 
-    private DataInterface<T>[] mInters;
+    private DataApi<T>[] mInters;
 
-    public LevelRepositeSource(DataInterface<T>... inters) {
+    public LevelRepositeSource(DataApi<T>... inters) {
         this.mInters = inters;
     }
 
@@ -27,7 +27,7 @@ public abstract class LevelRepositeSource<T> extends BaseDataRepo<T, Integer> {
             return;
         }
 
-        for (DataInterface<T> inter : mInters) {
+        for (DataApi<T> inter : mInters) {
             inter.initialize(null);
         }
 
@@ -43,7 +43,7 @@ public abstract class LevelRepositeSource<T> extends BaseDataRepo<T, Integer> {
         if (mInters != null && mInters.length > 0) {
             int fixPos = 0;
             for (int i = 1; i < mInters.length; i++) {
-                DataInterface<T> inter = mInters[i];
+                DataApi<T> inter = mInters[i];
                 if (mInters[fixPos].getInterfacePriority() < inter.getInterfacePriority()) {
                     fixPos = i;
                 }
@@ -57,36 +57,44 @@ public abstract class LevelRepositeSource<T> extends BaseDataRepo<T, Integer> {
     @Override
     public final Observable<T> reqData(boolean forceReq) {
         if (mInters == null) {
-            throw new NullPointerException("DataInterface is null ！");
+            throw new NullPointerException("DataApi is null ！");
         }
         return super.reqData(forceReq);
     }
 
     @Override
     public Observable<T> getNewData() {
+        DataApi<T> inter = getCurrInterface();
+        return inter.reqData(true);
+    }
+
+    public DataApi<T> getCurrInterface() {
         int index = 0;
         if (mCurrReqKey != null) {
             index = mCurrReqKey;
         }
-        DataInterface<T> inter = mInters[index];
+        DataApi<T> inter = mInters[index];
         Log.d(TAG, "getNewData with index:" + index + ",class:" + inter.getClass().getSimpleName());
-        return inter.reqData(true);
+        return inter;
     }
 
     /**
      * 数据源接口发生改变时触发
      */
-    public void onDataApiChange() {
+    public Observable<T> onDataApiChange() {
         Integer lastKey = mCurrReqKey;
         checkDataInterfaceKey();
         if (lastKey == null) {
             lastKey = 0;
         }
 
+        Observable<T> tmpData;
         if (mCurrReqKey != null && lastKey == mCurrReqKey) {
-            reqData(true);
+            tmpData = reqData(true);
         } else {
-            reqData(false);
+            tmpData = reqData(false);
         }
+
+        return tmpData;
     }
 }

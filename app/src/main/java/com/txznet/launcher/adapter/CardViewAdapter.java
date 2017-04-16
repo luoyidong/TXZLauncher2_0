@@ -5,8 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.txznet.launcher.data.model.BaseModel;
 import com.txznet.launcher.ui.model.UiCard;
 import com.txznet.launcher.ui.widget.BaseCardView;
+import com.txznet.launcher.ui.widget.MusicCardView;
+import com.txznet.launcher.ui.widget.ThirdCardView;
 
 import java.util.List;
 
@@ -27,14 +30,20 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.CardVi
         this.notifyDataSetChanged();
     }
 
-    public View createViewByType(ViewGroup parent, int viewType) {
-        // TODO 根据类型选择View
-        return new BaseCardView(mContext);
-    }
-
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CardViewHolder(createViewByType(parent, viewType));
+        View view = null;
+        switch (viewType){
+            case BaseModel.TYPE_MUSIC:
+                view = new MusicCardView(mContext);
+                break;
+            case BaseModel.TYPE_WEATHER:
+                break;
+            default:
+                view = new ThirdCardView(mContext);
+                break;
+        }
+        return new CardViewHolder(view);
     }
 
     @Override

@@ -1,8 +1,12 @@
 package com.txznet.launcher.ui.widget;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.View;
@@ -10,23 +14,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.txznet.launcher.R;
-import com.txznet.launcher.mv.CardViewContract;
+import com.txznet.launcher.mv.CardContract;
 import com.txznet.launcher.ui.model.UiCard;
 import com.txznet.launcher.ui.widget.swipe.SwipeFrameLayout;
+import com.txznet.libmvp.RxMvpPresenter;
+
+import javax.inject.Inject;
 
 /**
  * Created by TXZ-METEORLUO on 2017/3/31.
  */
-public class BaseCardView extends SwipeFrameLayout implements CardViewContract.View {
-    private TextView mNameTv;
-    private TextView mDescTv;
-    private ImageView mIconIv;
+public class BaseCardView<T extends RxMvpPresenter> extends SwipeFrameLayout implements CardContract.View {
+    protected TextView mNameTv;
+    protected TextView mDescTv;
+    protected ImageView mIconIv;
 
-    private CardView mCardView;
-    private View mCardLy;
-    private View mIconLy;
+    protected CardView mCardView;
+    protected View mCardLy;
+    protected View mIconLy;
 
     private UiCard mUseModel;
+
+    @Inject
+    protected T mPresenter;
 
     public BaseCardView(Context context) {
         this(context, null);
@@ -49,6 +59,24 @@ public class BaseCardView extends SwipeFrameLayout implements CardViewContract.V
         setContentView(view);
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if(mPresenter != null){
+            mPresenter.attachView(this);
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if(mPresenter != null){
+            mPresenter.detachView();
+        }
+
+        smoothClose();
+    }
+
     // 获取所属的布局文件Id
     public int getLayoutId() {
         return R.layout.card_default_ly;
@@ -67,6 +95,17 @@ public class BaseCardView extends SwipeFrameLayout implements CardViewContract.V
         if (mCardView != null) {
             mCardView.setCardBackgroundColor(Color.TRANSPARENT);
         }
+
+        mCardLy.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickBlank();
+            }
+        });
+    }
+
+    public void onClickBlank(){
+
     }
 
     public void bindModel(UiCard model) {
@@ -104,6 +143,45 @@ public class BaseCardView extends SwipeFrameLayout implements CardViewContract.V
     @Override
     public void setAppIcon(Drawable icon) {
         mIconIv.setImageDrawable(icon);
+    }
+
+    /**
+     * 将背景色设置为图片主色调
+     *
+     * @param icon
+     */
+    public void paletteIconColor(Drawable icon) {
+        // 提取主色调
+        if (icon != null) {
+            Palette.from(drawableToBitamp(icon)).generate(new Palette.PaletteAsyncListener() {
+                @Override
+                public void onGenerated(Palette palette) {
+                    Palette.Swatch swatch = palette.getVibrantSwatch();
+                    if (swatch != null) {
+                        setBgColor(swatch.getRgb());
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * Drawable转为Bitmap
+     *
+     * @param drawable
+     * @return
+     */
+    protected Bitmap drawableToBitamp(Drawable drawable) {
+        int w = drawable.getIntrinsicWidth();
+        int h = drawable.getIntrinsicHeight();
+        Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 :
+                Bitmap.Config.RGB_565;
+        Bitmap bitmap = Bitmap.createBitmap(w, h, config);
+        //注意，下面三行代码要用到，否在在View或者surfaceview里的canvas.drawBitmap会看不到图
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, w, h);
+        drawable.draw(canvas);
+        return bitmap;
     }
 
     @Override
