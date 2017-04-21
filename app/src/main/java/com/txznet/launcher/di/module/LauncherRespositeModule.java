@@ -8,8 +8,8 @@ import com.txznet.launcher.data.data.MusicData;
 import com.txznet.launcher.data.data.WeatherData;
 import com.txznet.launcher.data.repos.music.MusicTxzApi;
 import com.txznet.launcher.data.repos.weather.WeatherTxzApi;
-import com.txznet.launcher.data.source.CardsDbSource;
-import com.txznet.launcher.data.source.CardsPmSource;
+import com.txznet.launcher.data.source.DbSource;
+import com.txznet.launcher.data.source.PmSource;
 import com.txznet.launcher.di.Db;
 import com.txznet.launcher.di.Pm;
 
@@ -28,14 +28,14 @@ public class LauncherRespositeModule {
     @Provides
     @Pm
     CardsSourceApi providePmCardsSourceApi(Context context) {
-        return new CardsPmSource(context);
+        return new PmSource(context);
     }
 
     @Singleton
     @Provides
     @Db
     CardsSourceApi provideDbCardsSourceApi(Context context) {
-        return new CardsDbSource(context);
+        return new DbSource(context);
     }
 
     @Singleton

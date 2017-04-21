@@ -10,12 +10,15 @@ import java.io.Serializable;
  */
 @DatabaseTable
 public class CardBean implements Serializable {
+    public static final int TYPE_CARD = 1;
+    public static final int TYPE_APP = 2;
+
     @DatabaseField(generatedId = true)
     public Long _id;
-    @DatabaseField // 卡片位置
-    public int pos;
-    @DatabaseField // 卡片类型
-    public int type;
+    @DatabaseField // 数组位置
+    public int pos = -1;
+    @DatabaseField // 数据对应类型
+    public int type = -1;
     @DatabaseField // 卡片对应的包名
     public String packageName;
     @DatabaseField // 携带的数据信息

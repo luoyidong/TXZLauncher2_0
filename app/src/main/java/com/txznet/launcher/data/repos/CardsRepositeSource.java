@@ -47,36 +47,15 @@ public class CardsRepositeSource implements CardsRepoApi<BaseModel> {
             public List<BaseModel> call(List<String> strings) {
                 List<BaseModel> bms = new ArrayList<>();
                 for (String p : strings) {
+                    BaseModel bm = convertPackageToBm(p);
+                    if (bm == null) {
+                        continue;
+                    }
                     bms.add(convertPackageToBm(p));
                 }
                 return bms;
             }
         });
-//        return datas.flatMap(new Func1<List<String>, Observable<BaseModel>>() {
-//            @Override
-//            public Observable<BaseModel> call(List<String> strings) {
-//                return Observable.from(strings).flatMap(new Func1<String, Observable<BaseModel>>() {
-//                    @Override
-//                    public Observable<BaseModel> call(String s) {
-//                        // 生成卡片描述对象
-//                        return Observable.just(convertPackageToBm(s));
-//                    }
-//                });
-//            }
-//        })
-//                .toList().doOnNext(new Action1<List<BaseModel>>() {
-//                    @Override
-//                    public void call(List<BaseModel> baseModels) {
-//                        Observable.from(baseModels)
-//                                .subscribeOn(Schedulers.newThread())
-//                                .doOnNext(new Action1<BaseModel>() {
-//                                    @Override
-//                                    public void call(BaseModel model) {
-//
-//                                    }
-//                                }).subscribe();
-//                    }
-//                });
     }
 
     private BaseModel convertPackageToBm(String packageName) {

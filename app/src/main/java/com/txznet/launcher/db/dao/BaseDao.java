@@ -2,6 +2,9 @@ package com.txznet.launcher.db.dao;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
+import com.j256.ormlite.stmt.query.OrderBy;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.txznet.launcher.LauncherApp;
 import com.txznet.launcher.db.SQLiteHelper;
@@ -11,6 +14,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 abstract class BaseDao<T, ID extends Serializable> {
     protected final String TAG = this.getClass().getSimpleName();
@@ -74,6 +78,46 @@ abstract class BaseDao<T, ID extends Serializable> {
     public List<T> findAll() {
         try {
             return mDao.queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<T> findAllOrderBy(boolean ascending) {
+        try {
+            return mDao.queryBuilder().orderBy("pos", ascending).query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 按照条件查询
+     *
+     * @param kvs        And键值对
+     * @param groupByCol group字段
+     * @param ob         整体排序方式
+     * @return
+     */
+    public List<T> findByCondition(Map<String, Object> kvs, String groupByCol, OrderBy ob) {
+        try {
+            QueryBuilder qb = mDao.queryBuilder();
+            Where where = qb.where();
+            if (kvs != null && !kvs.isEmpty()) {
+                boolean first = true;
+                for (String key : kvs.keySet()) {
+                    if (!first) {
+                        first = true;
+                        where.and();
+                    }
+                    where = where.eq(key, kvs.get(key));
+                }
+            }
+            qb.groupBy(groupByCol);
+            qb.orderBy(ob.getColumnName(), ob.isAscending());
+            return qb.query();
         } catch (SQLException e) {
             e.printStackTrace();
         }

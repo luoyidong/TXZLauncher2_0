@@ -2,6 +2,8 @@ package com.txznet.launcher.data.model;
 
 import android.support.annotation.NonNull;
 
+import org.json.JSONObject;
+
 /**
  * Created by TXZ-METEORLUO on 2017/3/22.
  */
@@ -39,5 +41,15 @@ public class BaseModel extends AppInfo {
 
     public BaseModel(@NonNull String packageName, boolean isSystemApp) {
         super(packageName, isSystemApp);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
+    @Override
+    public JSONObject toJsonObject() {
+        return super.toJsonObject();
     }
 }
