@@ -54,17 +54,17 @@ public class WeatherPresenter extends WeatherContract.Presenter {
     }
 
     private void parseWeatherData(WeatherData wd) {
-        if (wd != null && wd.getWeatherList() != null && wd.getWeatherList().size() > 0) {
+        if (wd != null && wd.mWeatherList != null && wd.mWeatherList.size() > 0) {
             // 今天的天气取第一个
-            WeatherData.WeatherDetail today = wd.getWeatherList().get(0);
+            WeatherData.WeatherDetail today = wd.mWeatherList.get(0);
             getMvpView().setWeatherIcon(today.mIconResId);
             getMvpView().setWeather(today.mCurrWeather);
             getMvpView().setWeatherDescAndSugg(today.mWeatherDesc + "  " + today.mSugguest);
             getMvpView().setCity(today.mCity);
 
             // 设置天气详情
-            wd.getWeatherList().remove(0);
-            getMvpView().bindWeathers(wd.getWeatherList());
+            wd.mWeatherList.remove(0);
+            getMvpView().bindWeathers(wd.mWeatherList);
         }
     }
 

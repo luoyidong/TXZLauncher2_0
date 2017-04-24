@@ -4,39 +4,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by TXZ-METEORLUO on 2017/4/14.
  */
 public class WeatherData {
-    private String mCityName;
-    private String mCityCode;
-    private List<WeatherDetail> mWeatherList;
-
-    public void setCityName(String cityName) {
-        this.mCityName = cityName;
-    }
-
-    public String getCityName() {
-        return this.mCityName;
-    }
-
-    public void setCityCode(String cityCode) {
-        mCityCode = cityCode;
-    }
-
-    public String getCityCode() {
-        return this.mCityCode;
-    }
-
-    public void setWeatherList(List<WeatherDetail> weatherList) {
-        mWeatherList = weatherList;
-    }
-
-    public List<WeatherDetail> getWeatherList() {
-        return mWeatherList;
-    }
+    public String mCityName;
+    public String mCityCode;
+    public Date mUpdateTime;
+    public List<WeatherDetail> mWeatherList;
 
     public static class WeatherDetail {
         public String mWeek;

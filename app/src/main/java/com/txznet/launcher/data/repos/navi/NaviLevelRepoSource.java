@@ -1,14 +1,47 @@
 package com.txznet.launcher.data.repos.navi;
 
 import com.txznet.launcher.data.api.DataApi;
+import com.txznet.launcher.data.api.NavApi;
 import com.txznet.launcher.data.data.NavData;
 import com.txznet.launcher.data.repos.LevelRepositeSource;
+
+import javax.inject.Inject;
 
 /**
  * Created by TXZ-METEORLUO on 2017/4/14.
  */
-public class NaviLevelRepoSource extends LevelRepositeSource<NavData> {
+public class NaviLevelRepoSource extends LevelRepositeSource<NavData> implements NavApi {
+
+    @Inject
     public NaviLevelRepoSource(DataApi<NavData>... nds) {
         super(nds);
+
+        initialize(new OnInitListener() {
+            @Override
+            public void onInit(boolean bSucc) {
+            }
+        });
+    }
+
+    private NavApi getCurrInstance() {
+        DataApi<NavData> currInstance = getCurrInterface();
+        if (currInstance instanceof NavApi) {
+            return (NavApi) currInstance;
+        }
+        return null;
+    }
+
+    @Override
+    public void navigateHome() {
+        if (getCurrInstance() == null) {
+            getCurrInstance().navigateHome();
+        }
+    }
+
+    @Override
+    public void navigateCompany() {
+        if (getCurrInstance() == null) {
+            getCurrInstance().navigateCompany();
+        }
     }
 }

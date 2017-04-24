@@ -20,6 +20,12 @@ public class MusicLevelRepoSource extends LevelRepositeSource<MusicData> impleme
     @Inject
     public MusicLevelRepoSource(DataApi<MusicData>... mds) {
         super(mds);
+
+        initialize(new OnInitListener() {
+            @Override
+            public void onInit(boolean bSucc) {
+            }
+        });
     }
 
     private MusicApi getCurrInstance() {

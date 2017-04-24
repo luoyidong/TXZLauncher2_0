@@ -7,6 +7,7 @@ public interface Constants {
         String WEAHTER_PACKAGE_NAME = "";
         String VIDIO_PACKAGE_NAME = "";
         String MORE_PACKAGE_NAME = "";
+        String TXZ_PACKAGE_NAME = "com.txznet.txz";
     }
 
     interface Repo_Level {
