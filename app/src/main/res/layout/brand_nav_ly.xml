@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/logo_status_ly"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/dimen_card_content_padding">
+
+    <ImageView
+        android:id="@+id/icon_iv"
+        android:layout_width="@dimen/dimen_brand_hud_icon_width"
+        android:layout_height="@dimen/dimen_brand_hud_icon_height"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dimen_brand_hud_icon_top"
+        android:scaleType="centerInside"
+        android:src="@drawable/brand_icon_hud" />
+
+    <LinearLayout
+        android:id="@+id/dir_ly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/icon_iv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dimen_brand_hud_dir_top"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/dir_distance_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="360"
+            android:textColor="@color/color_brand_hud_dir"
+            android:textSize="@dimen/dimen_brand_hud_dir_size" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="米后"
+            android:textColor="@color/color_brand_hud_status"
+            android:textSize="@dimen/dimen_brand_hud_dir_s_size" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/road_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dir_ly"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dimen_brand_hud_road_top"
+        android:text="海云路"
+        android:textColor="@color/color_brand_hud_road"
+        android:textSize="@dimen/dimen_brand_hud_road_size" />
+
+    <TextView
+        android:id="@+id/remain_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dimen_brand_hud_margin_bottom"
+        android:text="剩余时间2小时3分钟"
+        android:textColor="@color/color_brand_hud_remain"
+        android:textSize="@dimen/dimen_brand_hud_remain_size" />
+</RelativeLayout>

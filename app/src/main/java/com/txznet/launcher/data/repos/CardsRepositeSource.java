@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import rx.Observable;
+import rx.functions.Action1;
 import rx.functions.Func1;
 
 /**
@@ -43,6 +44,7 @@ public class CardsRepositeSource implements CardsRepoApi<BaseModel> {
 
         Observable<List<String>> datas = mPmSource.loadCards();
         return datas.map(new Func1<List<String>, List<BaseModel>>() {
+
             @Override
             public List<BaseModel> call(List<String> strings) {
                 List<BaseModel> bms = new ArrayList<>();
@@ -51,9 +53,17 @@ public class CardsRepositeSource implements CardsRepoApi<BaseModel> {
                     if (bm == null) {
                         continue;
                     }
-                    bms.add(convertPackageToBm(p));
+                    bms.add(bm);
                 }
                 return bms;
+            }
+        }).doOnNext(new Action1<List<BaseModel>>() {
+
+            @Override
+            public void call(List<BaseModel> baseModels) {
+                for (BaseModel bm : baseModels) {
+                    mDbSource.addCard(bm);
+                }
             }
         });
     }

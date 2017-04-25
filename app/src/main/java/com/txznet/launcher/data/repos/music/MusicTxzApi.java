@@ -117,6 +117,11 @@ public class MusicTxzApi implements DataApi<MusicData>, MusicApi {
             @Override
             public void call(Subscriber<? super MusicData> subscriber) {
                 mSubscriber = subscriber;
+                if (mCurrTmpData != null) {
+                    mSubscriber.onStart();
+                    mSubscriber.onNext(mCurrTmpData);
+                    mSubscriber.onCompleted();
+                }
             }
         });
     }

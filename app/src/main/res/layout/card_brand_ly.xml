@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/brand_widget_width"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/view_contain_ly"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.txznet.launcher.ui.view.BrandViewPager
+            android:id="@+id/brand_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.txznet.launcher.ui.widget.brand.nav.NavView
+            android:id="@+id/nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/dimen_card_content_padding" />
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:id="@+id/indicator_ly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/dimen_indicator_margin_bottom"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" />
+</FrameLayout>

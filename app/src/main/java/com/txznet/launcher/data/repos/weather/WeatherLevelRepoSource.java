@@ -14,5 +14,11 @@ public class WeatherLevelRepoSource extends LevelRepositeSource<WeatherData> {
     @Inject
     public WeatherLevelRepoSource(DataApi<WeatherData>... wds) {
         super(wds);
+
+        initialize(new OnInitListener() {
+            @Override
+            public void onInit(boolean bSucc) {
+            }
+        });
     }
 }
