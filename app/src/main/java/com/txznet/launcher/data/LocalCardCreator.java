@@ -8,12 +8,9 @@ import com.txznet.launcher.data.model.BaseModel;
 import com.txznet.launcher.db.CardBean;
 import com.txznet.launcher.module.PackageManager;
 
-import javax.inject.Singleton;
-
 /**
  * Created by TXZ-METEORLUO on 2017/4/9.
  */
-@Singleton
 public class LocalCardCreator implements CardCreateApi {
     private static final String TAG = LocalCardCreator.class.getSimpleName();
     private static LocalCardCreator sCreator = new LocalCardCreator();
@@ -46,6 +43,7 @@ public class LocalCardCreator implements CardCreateApi {
                 app = AppInfo.createByJson(cb.jsonData);
                 break;
             case CardBean.TYPE_CARD:
+                BaseModel.createByJson(cb.jsonData);
                 break;
         }
         return app;

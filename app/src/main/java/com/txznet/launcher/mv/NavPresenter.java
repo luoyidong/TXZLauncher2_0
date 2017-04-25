@@ -29,7 +29,8 @@ public class NavPresenter extends NavContract.Presenter {
 
     @Override
     void loadNavInfo() {
-        mCompositeSubscription.add(mRepoSource.reqData(true)
+        mCompositeSubscription.add(mRepoSource
+                .reqData(true)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<NavData>() {
@@ -43,7 +44,87 @@ public class NavPresenter extends NavContract.Presenter {
 
                     @Override
                     public void onNext(NavData navData) {
+                        parseNavData(navData);
                     }
                 }));
+    }
+
+    private NavData mTmpNavData;
+
+    private void parseNavData(NavData nd) {
+        if (mTmpNavData == null) {
+            mTmpNavData = new NavData();
+        }
+
+        if (mTmpNavData.dirDistance != nd.dirDistance) {
+            getMvpView().setDirDistance(getRemainDistance(nd.dirDistance));
+        }
+
+        if (mTmpNavData.dirDes != nd.dirDes) {
+            // TODO 根据描述选择ICON
+            getMvpView().setDirectionIcon(0);
+        }
+
+        if (mTmpNavData.nextRoadName != nd.nextRoadName) {
+            getMvpView().setRoadName(nd.nextRoadName);
+        }
+
+        getMvpView().setRemainInfo(getRemainDistance(nd.remainDistance) + " " + getRemainTime(nd.remainTime));
+
+        mTmpNavData = nd;
+    }
+
+    public String getRemainTime(Integer rt) {
+        if (rt != null) {
+            long rtd = rt;
+            return getRemainTime(rtd);
+        }
+        return "";
+    }
+
+    public String getRemainTime(Long rt) {
+        if (rt == null) {
+            return "";
+        }
+
+        if (rt <= 0) {
+            return "";
+        }
+
+        if (rt > 60) {
+            if (rt >= 3600) {
+                int r = (int) (rt % 3600);
+                int h = (int) (rt / 3600);
+                int m = r / 60;
+                return h + "小时" + (m > 0 ? m + "分钟" : "");
+            } else {
+                return (rt / 60) + "分钟";
+            }
+        } else {
+            return rt + "秒";
+        }
+    }
+
+    public String getRemainDistance(Integer distance) {
+        if (distance != null) {
+            long dd = distance;
+            return getRemainDistance(dd);
+        }
+        return "";
+    }
+
+    public String getRemainDistance(Long distance) {
+        if (distance == null) {
+            return "";
+        }
+        if (distance <= 0) {
+            return "";
+        }
+
+        if (distance > 1000) {
+            return (Math.round(distance / 100.0) / 10.0) + "公里";
+        } else {
+            return distance + "米";
+        }
     }
 }

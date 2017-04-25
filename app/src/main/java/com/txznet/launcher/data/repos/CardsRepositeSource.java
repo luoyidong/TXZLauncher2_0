@@ -22,6 +22,7 @@ import rx.functions.Func1;
 
 /**
  * Created by TXZ-METEORLUO on 2017/3/30.
+ * 操作的记录都保存到数据库中
  */
 @Singleton
 public class CardsRepositeSource implements CardsRepoApi<BaseModel> {

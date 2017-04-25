@@ -1,6 +1,7 @@
 package com.txznet.launcher.di.component;
 
 import com.txznet.launcher.data.repos.CardsRepositeSource;
+import com.txznet.launcher.data.repos.brand.AdasRepoSource;
 import com.txznet.launcher.data.repos.music.MusicLevelRepoSource;
 import com.txznet.launcher.data.repos.navi.NaviLevelRepoSource;
 import com.txznet.launcher.data.repos.weather.WeatherLevelRepoSource;
@@ -25,4 +26,6 @@ public interface LauncherRepositeComponent {
     WeatherLevelRepoSource getWeatherRepoSource();
 
     NaviLevelRepoSource getNaviRepoSource();
+
+    AdasRepoSource getAdasRepoSource();
 }

@@ -13,10 +13,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -52,18 +50,6 @@ public class LauncherPresenter extends LauncherContract.Presenter {
 
         mCompositeSubscription.clear();
         mCompositeSubscription.add(mRepoSource.loadCards()
-//                .flatMap(new Func1<List<BaseModel>, Observable<UiCard>>() {
-//                    @Override
-//                    public Observable<UiCard> call(List<BaseModel> baseModels) {
-//                        return Observable.from(baseModels).flatMap(new Func1<BaseModel, Observable<UiCard>>() {
-//                            @Override
-//                            public Observable<UiCard> call(BaseModel model) {
-//                                return Observable.just(convertToUiCard(model));
-//                            }
-//                        });
-//                    }
-//                })
-//                .toList()
                 .map(new Func1<List<BaseModel>, List<UiCard>>() {
                     @Override
                     public List<UiCard> call(List<BaseModel> baseModels) {
