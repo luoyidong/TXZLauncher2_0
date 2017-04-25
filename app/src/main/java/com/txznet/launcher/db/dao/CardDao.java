@@ -11,7 +11,12 @@ import javax.inject.Singleton;
 @Singleton
 public class CardDao extends BaseDao<CardBean, Long> {
 
-    @Inject
+    private static CardDao INSTANCE = new CardDao();
+
+    public static CardDao getInstance() {
+        return INSTANCE;
+    }
+
     public CardDao() {
     }
 }

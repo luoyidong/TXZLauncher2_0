@@ -104,8 +104,8 @@ abstract class BaseDao<T, ID extends Serializable> {
     public List<T> findByCondition(Map<String, Object> kvs, String groupByCol, OrderBy ob) {
         try {
             QueryBuilder qb = mDao.queryBuilder();
-            Where where = qb.where();
             if (kvs != null && !kvs.isEmpty()) {
+                Where where = qb.where();
                 boolean first = true;
                 for (String key : kvs.keySet()) {
                     if (!first) {

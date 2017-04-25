@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -44,14 +45,9 @@ public class LauncherPresenter extends LauncherContract.Presenter {
     }
 
     private void loadCards(final boolean showingLoading) {
+        Log.d(TAG, "loadCards with loading:" + showingLoading);
         if (showingLoading) {
             getMvpView().showLoading();
-        }
-
-        Observable<List<BaseModel>> tmpData = mRepoSource.loadCards();
-        if (tmpData == null) {
-            getMvpView().showError(new NullPointerException("RepoSource loadCards return null!"));
-            return;
         }
 
         mCompositeSubscription.clear();

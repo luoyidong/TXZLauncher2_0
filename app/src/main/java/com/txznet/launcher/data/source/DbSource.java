@@ -29,15 +29,16 @@ import rx.functions.Func1;
 @Singleton
 public class DbSource implements CardsRepoApi<BaseModel>, AppsRepoApi<AppInfo> {
     private static final String TAG = DbSource.class.getSimpleName();
-    @Inject
+
     CardDao mCardDao;
-    @Inject
     Context mContext;
 
     private List<CardBean> mAllTmpList = new ArrayList<>();
 
-    public DbSource(Context context) {
+    @Inject
+    public DbSource(Context context, CardDao cd) {
         mContext = context;
+        mCardDao = cd;
     }
 
     @Override

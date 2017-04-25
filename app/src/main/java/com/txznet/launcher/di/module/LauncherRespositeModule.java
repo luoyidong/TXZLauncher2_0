@@ -10,6 +10,7 @@ import com.txznet.launcher.data.repos.music.MusicTxzApi;
 import com.txznet.launcher.data.repos.weather.WeatherTxzApi;
 import com.txznet.launcher.data.source.DbSource;
 import com.txznet.launcher.data.source.PmSource;
+import com.txznet.launcher.db.dao.CardDao;
 import com.txznet.launcher.di.Db;
 import com.txznet.launcher.di.Pm;
 
@@ -35,7 +36,7 @@ public class LauncherRespositeModule {
     @Provides
     @Db
     CardsSourceApi provideDbCardsSourceApi(Context context) {
-        return new DbSource(context);
+        return new DbSource(context, CardDao.getInstance());
     }
 
     @Singleton
@@ -48,7 +49,7 @@ public class LauncherRespositeModule {
 
     @Singleton
     @Provides
-    DataApi<WeatherData>[] provideWeatherInterface(Context context){
+    DataApi<WeatherData>[] provideWeatherInterface(Context context) {
         DataApi<WeatherData>[] faces = new DataApi[1];
         faces[0] = new WeatherTxzApi();
         return faces;
