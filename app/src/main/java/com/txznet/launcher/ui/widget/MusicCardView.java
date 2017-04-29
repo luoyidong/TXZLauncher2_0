@@ -22,7 +22,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ViewAware;
 import com.txznet.launcher.R;
 import com.txznet.launcher.data.data.MusicData;
-import com.txznet.launcher.mv.MusicContract;
+import com.txznet.launcher.mv.contract.MusicContract;
 import com.txznet.launcher.mv.MusicPresenter;
 import com.txznet.launcher.ui.view.MarqueeTextView;
 

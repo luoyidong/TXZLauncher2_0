@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.txznet.launcher.R;
-import com.txznet.launcher.mv.AdasContract;
+import com.txznet.launcher.mv.contract.AdasContract;
 import com.txznet.launcher.mv.AdasPresenter;
 
 import javax.inject.Inject;

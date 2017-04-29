@@ -2,6 +2,7 @@ package com.txznet.launcher.mv;
 
 import com.txznet.launcher.data.data.NavData;
 import com.txznet.launcher.data.repos.navi.NaviLevelRepoSource;
+import com.txznet.launcher.mv.contract.NavContract;
 
 import javax.inject.Inject;
 

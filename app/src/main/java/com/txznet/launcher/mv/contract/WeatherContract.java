@@ -1,7 +1,7 @@
-package com.txznet.launcher.mv;
+package com.txznet.launcher.mv.contract;
 
 import com.txznet.launcher.data.data.WeatherData;
-import com.txznet.libmvp.MvpView;
+import com.txznet.launcher.mv.contract.CardContract;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.txznet.launcher.di.module;
 
-import com.txznet.launcher.mv.LauncherContract;
+import com.txznet.launcher.mv.contract.LauncherContract;
 
 import dagger.Module;
 import dagger.Provides;

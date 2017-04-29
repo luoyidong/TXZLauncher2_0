@@ -6,6 +6,7 @@ import android.util.Log;
 import com.txznet.launcher.data.model.BaseModel;
 import com.txznet.launcher.data.repos.CardsRepositeSource;
 import com.txznet.launcher.module.PackageManager;
+import com.txznet.launcher.mv.contract.LauncherContract;
 import com.txznet.launcher.ui.model.UiCard;
 
 import java.util.ArrayList;

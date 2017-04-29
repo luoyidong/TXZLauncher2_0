@@ -1,4 +1,4 @@
-package com.txznet.launcher.mv;
+package com.txznet.launcher.mv.contract;
 
 import android.graphics.drawable.Drawable;
 

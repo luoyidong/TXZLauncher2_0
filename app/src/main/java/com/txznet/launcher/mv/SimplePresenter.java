@@ -1,5 +1,7 @@
 package com.txznet.launcher.mv;
 
+import com.txznet.launcher.mv.contract.CardContract;
+
 import javax.inject.Inject;
 
 /**

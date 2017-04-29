@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.txznet.launcher.R;
-import com.txznet.launcher.mv.NavContract;
+import com.txznet.launcher.mv.contract.NavContract;
 import com.txznet.launcher.mv.NavPresenter;
 
 import javax.inject.Inject;

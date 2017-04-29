@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.txznet.launcher.data.data.WeatherData;
 import com.txznet.launcher.data.repos.weather.WeatherLevelRepoSource;
+import com.txznet.launcher.mv.contract.WeatherContract;
 
 import javax.inject.Inject;
 

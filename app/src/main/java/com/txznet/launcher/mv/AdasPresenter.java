@@ -2,6 +2,7 @@ package com.txznet.launcher.mv;
 
 import com.txznet.launcher.data.data.AdasData;
 import com.txznet.launcher.data.repos.brand.AdasRepoSource;
+import com.txznet.launcher.mv.contract.AdasContract;
 import com.txznet.launcher.service.TimeService;
 import com.txznet.launcher.util.DateUtil;
 

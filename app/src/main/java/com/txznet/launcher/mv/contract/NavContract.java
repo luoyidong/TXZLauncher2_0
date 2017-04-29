@@ -1,4 +1,4 @@
-package com.txznet.launcher.mv;
+package com.txznet.launcher.mv.contract;
 
 import com.txznet.libmvp.MvpView;
 import com.txznet.libmvp.RxMvpPresenter;

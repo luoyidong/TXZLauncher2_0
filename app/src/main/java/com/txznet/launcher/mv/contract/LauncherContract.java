@@ -1,4 +1,4 @@
-package com.txznet.launcher.mv;
+package com.txznet.launcher.mv.contract;
 
 import com.txznet.launcher.data.model.BaseModel;
 import com.txznet.launcher.ui.model.UiCard;

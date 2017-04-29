@@ -8,7 +8,7 @@ import com.txznet.launcher.LauncherApp;
 import com.txznet.launcher.R;
 import com.txznet.launcher.adapter.CardViewAdapter;
 import com.txznet.launcher.di.component.DaggerLauncherComponent;
-import com.txznet.launcher.mv.LauncherContract;
+import com.txznet.launcher.mv.contract.LauncherContract;
 import com.txznet.launcher.mv.LauncherPresenter;
 import com.txznet.launcher.ui.model.UiCard;
 import com.txznet.launcher.ui.view.SlideRecyclerView;

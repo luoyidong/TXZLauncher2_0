@@ -14,10 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.txznet.launcher.R;
-import com.txznet.launcher.mv.CardContract;
+import com.txznet.launcher.mv.contract.CardContract;
 import com.txznet.launcher.ui.model.UiCard;
 import com.txznet.launcher.ui.widget.swipe.SwipeFrameLayout;
-import com.txznet.libmvp.RxMvpPresenter;
 
 import javax.inject.Inject;
 

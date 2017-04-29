@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.txznet.launcher.R;
 import com.txznet.launcher.data.data.WeatherData;
-import com.txznet.launcher.mv.WeatherContract;
+import com.txznet.launcher.mv.contract.WeatherContract;
 import com.txznet.launcher.ui.view.weather.WeatherLayout;
 
 import java.util.List;

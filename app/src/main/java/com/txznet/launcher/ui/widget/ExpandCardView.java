@@ -4,9 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.txznet.launcher.mv.CardContract;
-import com.txznet.libmvp.MvpView;
-import com.txznet.libmvp.RxMvpPresenter;
+import com.txznet.launcher.mv.contract.CardContract;
 
 /**
  * Created by UPC on 2017/4/16.
