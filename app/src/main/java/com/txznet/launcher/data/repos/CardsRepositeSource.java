@@ -2,7 +2,7 @@ package com.txznet.launcher.data.repos;
 
 import android.support.annotation.NonNull;
 
-import com.txznet.launcher.data.LocalCardCreator;
+import com.txznet.launcher.data.DataConvertor;
 import com.txznet.launcher.data.api.CardsRepoApi;
 import com.txznet.launcher.data.api.CardsSourceApi;
 import com.txznet.launcher.data.model.BaseModel;
@@ -70,7 +70,7 @@ public class CardsRepositeSource implements CardsRepoApi<BaseModel> {
     }
 
     private BaseModel convertPackageToBm(String packageName) {
-        return LocalCardCreator.getInstance().createCard(packageName);
+        return DataConvertor.getInstance().createCard(packageName);
     }
 
     @Override
