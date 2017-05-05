@@ -22,8 +22,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ViewAware;
 import com.txznet.launcher.R;
 import com.txznet.launcher.data.data.MusicData;
-import com.txznet.launcher.mv.contract.MusicContract;
 import com.txznet.launcher.mv.MusicPresenter;
+import com.txznet.launcher.mv.contract.MusicContract;
+import com.txznet.launcher.ui.MainActivity;
 import com.txznet.launcher.ui.view.MarqueeTextView;
 
 /**
@@ -53,6 +54,11 @@ public class MusicCardView extends BaseCardView<MusicPresenter> implements Music
 
     public MusicCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    public void inject(MainActivity ma) {
+        ma.getComponent().inject(this);
     }
 
     @Override

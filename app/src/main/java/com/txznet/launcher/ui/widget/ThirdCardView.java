@@ -7,6 +7,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 
 import com.txznet.launcher.mv.SimplePresenter;
+import com.txznet.launcher.ui.MainActivity;
 
 /**
  * Created by UPC on 2017/4/16.
@@ -24,6 +25,11 @@ public class ThirdCardView extends BaseCardView<SimplePresenter> {
 
     public ThirdCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    public void inject(MainActivity ma) {
+        ma.getComponent().inject(this);
     }
 
     @Override
@@ -46,6 +52,8 @@ public class ThirdCardView extends BaseCardView<SimplePresenter> {
     @Override
     public void setAppIcon(Drawable icon) {
         super.setAppIcon(icon);
-        paletteIconColor(icon);
+        if (mUseModel != null && mUseModel.backgroundColor == 0) {
+            paletteIconColor(icon);
+        }
     }
 }

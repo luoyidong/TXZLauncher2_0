@@ -20,7 +20,7 @@ public interface NavContract {
 
     abstract class Presenter extends RxMvpPresenter<View> {
 
-        abstract void loadNavInfo();
+        public abstract void loadNavInfo();
 
     }
 }

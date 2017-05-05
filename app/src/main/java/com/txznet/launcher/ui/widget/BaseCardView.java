@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.txznet.launcher.R;
 import com.txznet.launcher.mv.contract.CardContract;
+import com.txznet.launcher.ui.MainActivity;
 import com.txznet.launcher.ui.model.UiCard;
 import com.txznet.launcher.ui.widget.swipe.SwipeFrameLayout;
 
@@ -23,7 +24,7 @@ import javax.inject.Inject;
 /**
  * Created by TXZ-METEORLUO on 2017/3/31.
  */
-public class BaseCardView<T extends CardContract.Presenter> extends SwipeFrameLayout implements CardContract.View {
+public abstract class BaseCardView<T extends CardContract.Presenter> extends SwipeFrameLayout implements CardContract.View {
     protected TextView mNameTv;
     protected TextView mDescTv;
     protected ImageView mIconIv;
@@ -32,7 +33,7 @@ public class BaseCardView<T extends CardContract.Presenter> extends SwipeFrameLa
     protected View mCardLy;
     protected View mIconLy;
 
-    private UiCard mUseModel;
+    protected UiCard mUseModel;
 
     @Inject
     protected T mPresenter;
@@ -47,8 +48,11 @@ public class BaseCardView<T extends CardContract.Presenter> extends SwipeFrameLa
 
     public BaseCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        inject((MainActivity) context);
         initView();
     }
+
+    public abstract void inject(MainActivity ma);
 
     public void initView() {
         int layoutId = getLayoutId();
@@ -132,7 +136,9 @@ public class BaseCardView<T extends CardContract.Presenter> extends SwipeFrameLa
         if (name == null) {
             name = "";
         }
-        mNameTv.setText(name);
+        if (mNameTv != null) {
+            mNameTv.setText(name);
+        }
     }
 
     @Override
@@ -140,12 +146,16 @@ public class BaseCardView<T extends CardContract.Presenter> extends SwipeFrameLa
         if (desc == null) {
             desc = "";
         }
-        mDescTv.setText(desc);
+        if (mDescTv != null) {
+            mDescTv.setText(desc);
+        }
     }
 
     @Override
     public void setAppIcon(Drawable icon) {
-        mIconIv.setImageDrawable(icon);
+        if (mIconIv != null) {
+            mIconIv.setImageDrawable(icon);
+        }
     }
 
     /**
@@ -161,6 +171,7 @@ public class BaseCardView<T extends CardContract.Presenter> extends SwipeFrameLa
                 public void onGenerated(Palette palette) {
                     Palette.Swatch swatch = palette.getVibrantSwatch();
                     if (swatch != null) {
+                        mUseModel.backgroundColor = swatch.getRgb();
                         setBgColor(swatch.getRgb());
                     }
                 }
@@ -189,7 +200,7 @@ public class BaseCardView<T extends CardContract.Presenter> extends SwipeFrameLa
 
     @Override
     public void setBgColor(int color) {
-        if (color != 0) {
+        if (color != 0 && mCardLy != null) {
             mCardLy.setBackgroundColor(color);
         }
     }

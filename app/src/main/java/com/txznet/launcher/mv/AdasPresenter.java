@@ -44,7 +44,7 @@ public class AdasPresenter extends AdasContract.Presenter {
     }
 
     @Override
-    void loadAdasInfo() {
+    public void loadAdasInfo() {
         refreshCurrTime();
         mCompositeSubscription.add(mRepoSource
                 .reqData(true)

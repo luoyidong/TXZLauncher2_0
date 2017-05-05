@@ -14,11 +14,25 @@
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <service android:name=".service.TimeService" />
+
+        <service
+            android:name="com.txznet.sdk.TXZService"
+            android:exported="true">
+            <intent-filter>
+
+                <!-- {项目包名}.service.TXZService -->
+                <action android:name="com.txznet.launcher.service.TXZService" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
 
     </application>
 

@@ -23,6 +23,7 @@ public class WeatherPresenter extends WeatherContract.Presenter {
 
     @Inject
     public WeatherPresenter(WeatherLevelRepoSource repoSource) {
+        Log.d(TAG, "WeatherPresenter:" + repoSource);
         this.mRepoSource = repoSource;
     }
 

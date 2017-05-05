@@ -41,6 +41,10 @@ public class BaseModel extends AppInfo {
 
     public BaseModel(@NonNull String packageName, boolean isSystemApp) {
         super(packageName, isSystemApp);
+
+        if (isSystemApp) {
+            type = TYPE_SYSTEM_APP;
+        }
     }
 
     @Override

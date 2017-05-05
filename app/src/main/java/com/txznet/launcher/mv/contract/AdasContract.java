@@ -20,6 +20,6 @@ public interface AdasContract {
     }
 
     abstract class Presenter extends RxMvpPresenter<View> {
-        abstract void loadAdasInfo();
+        public abstract void loadAdasInfo();
     }
 }

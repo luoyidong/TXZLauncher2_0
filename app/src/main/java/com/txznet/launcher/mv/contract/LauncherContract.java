@@ -23,12 +23,12 @@ public interface LauncherContract {
 
     abstract class Presenter extends RxMvpPresenter<View> {
 
-        abstract void loadCards();
+        public abstract void loadCards();
 
-        abstract void addCard(BaseModel card);
+        public abstract void addCard(BaseModel card);
 
-        abstract void removeCard(int pos);
+        public abstract void removeCard(int pos);
 
-        abstract void swapCards(int before, int after);
+        public abstract void swapCards(int before, int after);
     }
 }

@@ -7,9 +7,12 @@ import android.view.ViewGroup;
 
 import com.txznet.launcher.data.model.BaseModel;
 import com.txznet.launcher.ui.model.UiCard;
+import com.txznet.launcher.ui.widget.AppCardView;
 import com.txznet.launcher.ui.widget.BaseCardView;
 import com.txznet.launcher.ui.widget.MusicCardView;
+import com.txznet.launcher.ui.widget.SysCardView;
 import com.txznet.launcher.ui.widget.ThirdCardView;
+import com.txznet.launcher.ui.widget.WeatherCardView;
 
 import java.util.List;
 
@@ -33,23 +36,35 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.CardVi
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
-        switch (viewType){
+        switch (viewType) {
             case BaseModel.TYPE_MUSIC:
                 view = new MusicCardView(mContext);
                 break;
             case BaseModel.TYPE_WEATHER:
+                view = new WeatherCardView(mContext);
+                break;
+            case BaseModel.TYPE_SYSTEM_APP:
+                view = new SysCardView(mContext);
+                break;
+            case BaseModel.TYPE_MORE_APP:
+                view = new AppCardView(mContext);
+                break;
+            case BaseModel.TYPE_THIRD_APP:
+                view = new ThirdCardView(mContext);
                 break;
             default:
                 view = new ThirdCardView(mContext);
                 break;
         }
+        view = new WeatherCardView(mContext);
+
         return new CardViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(CardViewHolder holder, int position) {
-        UiCard model = mCards.get(position);
-        holder.attachModel(model);
+        UiCard card = mCards.get(position);
+        holder.attachModel(card);
     }
 
     @Override

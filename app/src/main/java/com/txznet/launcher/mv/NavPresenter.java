@@ -29,7 +29,7 @@ public class NavPresenter extends NavContract.Presenter {
     }
 
     @Override
-    void loadNavInfo() {
+    public void loadNavInfo() {
         mCompositeSubscription.add(mRepoSource
                 .reqData(true)
                 .subscribeOn(Schedulers.io())

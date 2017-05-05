@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:minHeight="@dimen/dimen_card_height"
+    android:minWidth="@dimen/dimen_card_width"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dimen_card_margin_bottom"
+        android:layout_marginTop="@dimen/dimen_card_margin_top">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/card_ly"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_default_card_bg"
+                android:gravity="center"
+                android:minWidth="@dimen/dimen_card_width"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/app_quick_ly"
+                    android:layout_width="match_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="3">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/slide_app_recycle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </FrameLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/card_name_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/dimen_card_name_top"
+                        android:textColor="@color/color_card_name"
+                        android:textSize="@dimen/dimen_card_name"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/card_des_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/card_name_tv"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/dimen_card_des_top"
+                        android:textColor="@color/color_cardDes_name"
+                        android:textSize="@dimen/dimen_cardDes_name"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/card_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/icon_more_app" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <com.txznet.launcher.ui.view.AppRecyclerView
+                android:id="@+id/all_app_rv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/color_expand_bg"
+                android:padding="@dimen/dimen_card_content_padding" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <ImageView
+        android:id="@+id/card_delete_btn"
+        android:layout_width="@dimen/dimen_delete_btn_width"
+        android:layout_height="@dimen/dimen_delete_btn_height"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@null"
+        android:paddingBottom="@dimen/dimen_delete_btn_padding"
+        android:src="@drawable/card_delete_btn" />
+
+</LinearLayout>

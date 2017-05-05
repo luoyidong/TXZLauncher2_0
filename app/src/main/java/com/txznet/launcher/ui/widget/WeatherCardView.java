@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import com.txznet.launcher.R;
 import com.txznet.launcher.data.data.WeatherData;
+import com.txznet.launcher.mv.WeatherPresenter;
 import com.txznet.launcher.mv.contract.WeatherContract;
+import com.txznet.launcher.ui.MainActivity;
 import com.txznet.launcher.ui.view.weather.WeatherLayout;
 
 import java.util.List;
@@ -18,7 +20,7 @@ import java.util.List;
  * Created by UPC on 2017/4/16.
  */
 
-public class WeatherCardView extends ExpandCardView<WeatherContract.Presenter> implements WeatherContract.View {
+public class WeatherCardView extends ExpandCardView<WeatherPresenter> implements WeatherContract.View {
     public WeatherCardView(Context context) {
         super(context);
     }
@@ -29,6 +31,11 @@ public class WeatherCardView extends ExpandCardView<WeatherContract.Presenter> i
 
     public WeatherCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    public void inject(MainActivity ma) {
+        ma.getComponent().inject(this);
     }
 
     @Override

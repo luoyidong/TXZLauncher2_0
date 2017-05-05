@@ -39,7 +39,7 @@ public class LauncherPresenter extends LauncherContract.Presenter {
     }
 
     @Override
-    void loadCards() {
+    public void loadCards() {
         loadCards(true);
     }
 
@@ -95,27 +95,33 @@ public class LauncherPresenter extends LauncherContract.Presenter {
         card.packageName = bm.packageName;
         card.backgroundColor = bm.bgColor;
         card.desc = bm.desc;
-        if (TextUtils.isEmpty(bm.name)) {
+        PackageManager.AppInfo appInfo = PackageManager.getInstance().getAppInfo(bm.packageName);
+        if (TextUtils.isEmpty(bm.name) && appInfo != null) {
             // 通过包名尝试获取，不用在生成BaseModel的时候就获取名字
-            PackageManager.AppInfo appInfo = PackageManager.getInstance().getAppInfo(bm.packageName);
             card.name = appInfo.appName;
             card.iconDrawable = appInfo.appIcon;
+        } else {
+            card.name = bm.name;
         }
+        if (appInfo != null) {
+            card.iconDrawable = appInfo.appIcon;
+        }
+
         return card;
     }
 
     @Override
-    void addCard(BaseModel card) {
+    public void addCard(BaseModel card) {
         mRepoSource.addCard(card);
     }
 
     @Override
-    void removeCard(int pos) {
+    public void removeCard(int pos) {
         mRepoSource.closeCard(pos);
     }
 
     @Override
-    void swapCards(int before, int after) {
+    public void swapCards(int before, int after) {
         mRepoSource.swapCards(before, after);
     }
 }

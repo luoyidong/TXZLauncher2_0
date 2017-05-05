@@ -3,13 +3,17 @@ package com.txznet.launcher.ui;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.txznet.launcher.LauncherApp;
 import com.txznet.launcher.R;
 import com.txznet.launcher.adapter.CardViewAdapter;
 import com.txznet.launcher.di.component.DaggerLauncherComponent;
-import com.txznet.launcher.mv.contract.LauncherContract;
+import com.txznet.launcher.di.component.LauncherComponent;
 import com.txznet.launcher.mv.LauncherPresenter;
+import com.txznet.launcher.mv.contract.LauncherContract;
 import com.txznet.launcher.ui.model.UiCard;
 import com.txznet.launcher.ui.view.SlideRecyclerView;
 
@@ -34,17 +38,20 @@ public class MainActivity extends BaseLoadingActivity implements LauncherContrac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 隐藏应用程序的标题栏，即当前activity的label
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // 隐藏android系统的状态栏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.launcher_main);
         ButterKnife.bind(this);
 
-        DaggerLauncherComponent.builder()
-                .launcherRepositeComponent(((LauncherApp) getApplication()).getLauncherRespositeComponent())
-                .build()
-                .inject(this);
+       getComponent().inject(this);
 
         LinearLayoutManager mLyManager = new LinearLayoutManager(MainActivity.this, OrientationHelper.HORIZONTAL, false);
         mLyManager.setOrientation(OrientationHelper.HORIZONTAL);
         mRecyclerView.setLayoutManager(mLyManager);
+
+        getWindow().getDecorView().setSystemUiVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -82,5 +89,11 @@ public class MainActivity extends BaseLoadingActivity implements LauncherContrac
     @Override
     public void notifyAdd(int pos) {
         mAdapter.notifyItemInserted(pos);
+    }
+
+    public LauncherComponent getComponent() {
+        return DaggerLauncherComponent.builder()
+                .launcherRepositeComponent(((LauncherApp) getApplication()).getLauncherRespositeComponent())
+                .build();
     }
 }
