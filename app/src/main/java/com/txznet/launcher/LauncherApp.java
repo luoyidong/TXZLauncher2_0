@@ -30,7 +30,7 @@ public class LauncherApp extends MultiDexApplication {
                 .build();
         initHandler();
 
-        InitService.init(this);
+        Initialize.init(this);
     }
 
     private void initHandler() {

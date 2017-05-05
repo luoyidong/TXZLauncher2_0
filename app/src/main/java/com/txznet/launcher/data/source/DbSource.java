@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.j256.ormlite.stmt.query.OrderBy;
+import com.txznet.launcher.data.DataConvertor;
 import com.txznet.launcher.data.api.AppsRepoApi;
 import com.txznet.launcher.data.api.CardsRepoApi;
 import com.txznet.launcher.data.model.AppInfo;
@@ -58,12 +59,17 @@ public class DbSource implements CardsRepoApi<BaseModel>, AppsRepoApi<AppInfo> {
 
     @Override
     public void addCard(@NonNull BaseModel bm) {
-
+        CardBean cb = DataConvertor.getInstance().convertFromModel(bm);
+        if (cb != null) {
+            mCardDao.save(cb);
+        }
     }
 
     @Override
     public void saveCard(@NonNull BaseModel bm) {
-
+        CardBean cb = DataConvertor.getInstance().convertFromModel(bm);
+        if (cb != null) {
+        }
     }
 
     @Override
@@ -77,8 +83,7 @@ public class DbSource implements CardsRepoApi<BaseModel>, AppsRepoApi<AppInfo> {
         }).map(new Func1<CardBean, BaseModel>() {
             @Override
             public BaseModel call(CardBean cardBean) {
-//                return LocalCardCreator.getInstance().createFromCardBean(cardBean);
-                return null;
+                return (BaseModel) DataConvertor.getInstance().convertFromCardBean(cardBean);
             }
         }).toList();
     }
@@ -109,18 +114,6 @@ public class DbSource implements CardsRepoApi<BaseModel>, AppsRepoApi<AppInfo> {
         return cbs;
     }
 
-//    private BaseModel convert(CardBean cb) {
-////        BaseModel bm = LocalCardCreator.getInstance().createCard(cb.type);
-////        bm.packageName = cb.packageName;
-////        PackageManager.AppInfo appInfo = PackageManager.getInstance().getAppInfo(cb.packageName);
-////        bm.name = appInfo.appName;
-////        bm.isSystemApp = appInfo.isSystemApp;
-////
-////        if (!TextUtils.isEmpty(cb.jsonData)) {
-////        }
-//        return bm;
-//    }
-
     @Override
     public boolean isDbReady() {
         return mCardDao != null;
@@ -150,5 +143,9 @@ public class DbSource implements CardsRepoApi<BaseModel>, AppsRepoApi<AppInfo> {
                 return info;
             }
         }).toList();
+    }
+
+    private CardBean findCardBeanByInfo(AppInfo info) {
+        return null;
     }
 }
