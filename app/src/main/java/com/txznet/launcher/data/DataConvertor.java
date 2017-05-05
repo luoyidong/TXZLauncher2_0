@@ -37,6 +37,11 @@ public class DataConvertor implements DataCreateApi, DataConvertApi {
     }
 
     @Override
+    public AppInfo createFromType(int type, boolean isCard) {
+        return null;
+    }
+
+    @Override
     public AppInfo convertFromCardBean(CardBean cb) {
         AppInfo app = null;
         switch (cb.type) {
