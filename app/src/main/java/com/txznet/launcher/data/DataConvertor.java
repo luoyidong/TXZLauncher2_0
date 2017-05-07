@@ -38,7 +38,11 @@ public class DataConvertor implements DataCreateApi, DataConvertApi {
 
     @Override
     public AppInfo createFromType(int type, boolean isCard) {
-        return null;
+        AppInfo appInfo = new AppInfo(type);
+        if (isCard) {
+            appInfo = new BaseModel(type);
+        }
+        return appInfo;
     }
 
     @Override

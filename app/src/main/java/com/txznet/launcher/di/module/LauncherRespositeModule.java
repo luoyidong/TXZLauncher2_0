@@ -12,9 +12,11 @@ import com.txznet.launcher.data.repos.navi.NavTxzApi;
 import com.txznet.launcher.data.repos.weather.WeatherTxzApi;
 import com.txznet.launcher.data.source.DbSource;
 import com.txznet.launcher.data.source.PmSource;
+import com.txznet.launcher.data.source.StatusSource;
 import com.txznet.launcher.db.dao.CardDao;
 import com.txznet.launcher.di.Db;
 import com.txznet.launcher.di.Pm;
+import com.txznet.launcher.di.Ss;
 
 import javax.inject.Singleton;
 
@@ -39,6 +41,13 @@ public class LauncherRespositeModule {
     @Db
     CardsSourceApi provideDbCardsSourceApi(Context context) {
         return new DbSource(context, CardDao.getInstance());
+    }
+
+    @Singleton
+    @Provides
+    @Ss
+    CardsSourceApi provideStatusSource() {
+        return new StatusSource();
     }
 
     @Singleton

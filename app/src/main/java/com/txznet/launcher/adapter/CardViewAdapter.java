@@ -56,7 +56,6 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.CardVi
                 view = new ThirdCardView(mContext);
                 break;
         }
-        view = new WeatherCardView(mContext);
 
         return new CardViewHolder(view);
     }
