@@ -2,13 +2,13 @@ package com.txznet.launcher.mv;
 
 import android.text.TextUtils;
 
+import com.txznet.launcher.data.api.MusicApi;
 import com.txznet.launcher.data.data.MusicData;
 import com.txznet.launcher.data.repos.music.MusicLevelRepoSource;
 import com.txznet.launcher.mv.contract.MusicContract;
 
 import javax.inject.Inject;
 
-import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -23,6 +23,13 @@ public class MusicPresenter extends MusicContract.Presenter {
     private boolean mIsFirstReq = true;
     private MusicLevelRepoSource mMusicRepoSource;
 
+    private MusicApi.OnMusicStateListener musicStateListener = new MusicApi.OnMusicStateListener() {
+        @Override
+        public void onMusicUpdate(MusicData md) {
+            onDataNext(md);
+        }
+    };
+
     @Inject
     public MusicPresenter(MusicLevelRepoSource repoSource) {
         mMusicRepoSource = repoSource;
@@ -32,40 +39,43 @@ public class MusicPresenter extends MusicContract.Presenter {
     public void attachView(MusicContract.View view) {
         super.attachView(view);
 
-        Observable<MusicData> observable = mMusicRepoSource.reqData(mIsFirstReq);
-        if (observable != null) {
-            mCompositeSubscription.add(
-                    observable
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Subscriber<MusicData>() {
-                                @Override
-                                public void onStart() {
-                                }
+        mMusicRepoSource.register(musicStateListener);
 
-                                @Override
-                                public void onCompleted() {
-                                    mIsFirstReq = false;
-                                }
+        mCompositeSubscription.add(
+                mMusicRepoSource.reqData(mIsFirstReq)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<MusicData>() {
+                            @Override
+                            public void onStart() {
+                            }
 
-                                @Override
-                                public void onError(Throwable e) {
-                                }
+                            @Override
+                            public void onCompleted() {
+                                mIsFirstReq = false;
+                            }
 
-                                @Override
-                                public void onNext(MusicData musicData) {
-                                    onDataNext(musicData);
-                                }
-                            }));
-        }
+                            @Override
+                            public void onError(Throwable e) {
+                            }
 
-        // 更新
-        mMusicRepoSource.reqState();
+                            @Override
+                            public void onNext(MusicData musicData) {
+                                onDataNext(musicData);
+                            }
+                        }));
+
+    }
+
+    @Override
+    public void detachView() {
+        super.detachView();
+        mMusicRepoSource.unRegister();
     }
 
     private void onDataNext(MusicData musicData) {
         if (mCacheData == null) {
-            mCacheData = musicData;
+            mCacheData = new MusicData();
         }
 
         if ((!TextUtils.isEmpty(mCacheData.albumPic) && !mCacheData.albumPic.equals(musicData.albumPic))
@@ -83,7 +93,7 @@ public class MusicPresenter extends MusicContract.Presenter {
         if ((!TextUtils.isEmpty(mCacheData.songTitle) && !mCacheData.songTitle.equals(musicData.songTitle))
                 || TextUtils.isEmpty(mCacheData.songTitle)) {
             mCacheData.songTitle = musicData.songTitle;
-            getMvpView().setArtistName(mCacheData.songTitle);
+            getMvpView().setSongTitle(mCacheData.songTitle);
         }
 
         if (mCacheData.mediaState != musicData.mediaState) {

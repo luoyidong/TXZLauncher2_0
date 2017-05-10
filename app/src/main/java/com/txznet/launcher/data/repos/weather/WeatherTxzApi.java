@@ -23,11 +23,14 @@ import rx.Subscriber;
  * Created by UPC on 2017/4/16.
  */
 
-public class WeatherTxzApi implements DataApi<WeatherData> {
+public class WeatherTxzApi implements DataApi<WeatherData, WeatherTxzApi.WeatherListener> {
     private static final String TAG = WeatherTxzApi.class.getSimpleName();
+
     private boolean hasGetWeathers;
+    private boolean hasRequestWeather;
 
     private WeatherData mCacheWeatherData;
+    private WeatherListener mWeatherListener;
 
     @Inject
     public WeatherTxzApi() {
@@ -55,96 +58,86 @@ public class WeatherTxzApi implements DataApi<WeatherData> {
                     subscriber.onStart();
                     subscriber.onNext(mCacheWeatherData);
                     subscriber.onCompleted();
-                } else {
-                    requestWeatherData(subscriber);
+                    return;
                 }
+                requestWeatherData();
             }
         });
     }
 
-    private void requestWeatherData(Subscriber<? super WeatherData> subscriber) {
-        mRefreshRunnable.update(subscriber);
-        mRefreshRunnable.run();
+    private void requestWeatherData() {
+        LauncherApp.removeBackGroundCallback(reqTask);
+        LauncherApp.runOnBackGround(reqTask, 0);
+//        if (!hasGetWeathers) {
+//            LauncherApp.runOnBackGround(this, 1000 * 5);
+//        } else {
+//            LauncherApp.runOnBackGround(this, 1000 * 60 * 30);//半个小时更新一次
+//        }
     }
 
-    LauncherApp.Runnable1<Subscriber<? super WeatherData>> mRefreshRunnable = new LauncherApp.Runnable1<Subscriber<? super WeatherData>>(null) {
+    Runnable reqTask = new Runnable() {
         @Override
         public void run() {
-            final Subscriber<? super WeatherData> mSubscriber = mP1;
-
-            if (mSubscriber != null) {
-                mSubscriber.onStart();
-            }
-
-            try {
-                Log.d(TAG, "start getWeatherInfo...");
-                TXZNetDataProvider.getInstance().getWeatherInfo(new TXZNetDataProvider.NetDataCallback<com.txznet.sdk.bean.WeatherData>() {
-
-                    @Override
-                    public void onResult(com.txznet.sdk.bean.WeatherData weatherData) {
-                        Log.d(TAG, "parseWeatherData:" + weatherData);
-                        if (weatherData == null) {
-                            mSubscriber.onNext(null);
-                            return;
-                        }
-                        hasGetWeathers = true;
-
-                        WeatherData wData = new WeatherData();
-                        wData.mCityCode = weatherData.cityCode;
-                        wData.mCityName = weatherData.cityName;
-                        wData.mUpdateTime = weatherData.updateTime;
-                        if (weatherData.weatherDays != null && weatherData.weatherDays.length > 0) {
-                            List<WeatherData.WeatherDetail> wds = new ArrayList<>();
-                            for (int i = 0; i < weatherData.weatherDays.length; i++) {
-                                com.txznet.sdk.bean.WeatherData.WeatherDay wd = weatherData.weatherDays[i];
-                                WeatherData.WeatherDetail wwd = new WeatherData.WeatherDetail();
-                                wwd.mCity = weatherData.cityName;
-                                wwd.mCurrWeather = wd.currentTemperature + "℃";
-                                wwd.mMaxWeather = wd.highestTemperature + "℃";
-                                wwd.mMinWeather = wd.lowestTemperature + "℃";
-                                wwd.mWeek = WEEK_CONSTANTS[wd.dayOfWeek - 1];
-                                wwd.mSugguest = wd.suggest;
-                                wwd.mWeatherDesc = wd.weather;
-                                if (i == 0) {
-                                    wwd.mIconResId = getResourceIdByWeather(wd.weather);
-                                } else {
-                                    wwd.mIconResId = getSmallResByWeather(wd.weather);
-                                }
-                                wds.add(wwd);
-                            }
-                            wData.mWeatherList = wds;
-                        }
-
-                        mCacheWeatherData = wData;
-
-                        if (mSubscriber != null) {
-                            mSubscriber.onNext(wData);
-                            mSubscriber.onCompleted();
-                        }
-                    }
-
-                    @Override
-                    public void onError(int i) {
-                        if (mSubscriber != null) {
-                            mSubscriber.onError(new Throwable("onError:" + i));
-                        }
-                    }
-                });
-            } catch (Exception e) {
-                if (mSubscriber != null) {
-                    mSubscriber.onError(e);
+            if (hasRequestWeather) {
+                LauncherApp.removeBackGroundCallback(this);
+                if (hasGetWeathers) {
+                    LauncherApp.runOnBackGround(this, 1000 * 60 * 30);
+                } else {
+                    LauncherApp.runOnBackGround(this, 1000 * 5);
                 }
+                return;
             }
-            LauncherApp.removeBackGroundCallback(mRefreshRunnable);
-            if (!hasGetWeathers) {
-                LauncherApp.runOnBackGround(mRefreshRunnable, 1000 * 5);
-            } else {
-                LauncherApp.runOnBackGround(mRefreshRunnable, 1000 * 60 * 30);//半个小时更新一次
-            }
+
+            Log.d(TAG, "start getWeatherInfo...");
+            TXZNetDataProvider.getInstance().getWeatherInfo(new TXZNetDataProvider.NetDataCallback<com.txznet.sdk.bean.WeatherData>() {
+
+                @Override
+                public void onResult(com.txznet.sdk.bean.WeatherData weatherData) {
+                    Log.d(TAG, "parseWeatherData:" + weatherData);
+                    hasGetWeathers = true;
+
+                    WeatherData wData = new WeatherData();
+                    wData.mCityCode = weatherData.cityCode;
+                    wData.mCityName = weatherData.cityName;
+                    wData.mUpdateTime = weatherData.updateTime;
+                    if (weatherData.weatherDays != null && weatherData.weatherDays.length > 0) {
+                        List<WeatherData.WeatherDetail> wds = new ArrayList<>();
+                        for (int i = 0; i < weatherData.weatherDays.length; i++) {
+                            com.txznet.sdk.bean.WeatherData.WeatherDay wd = weatherData.weatherDays[i];
+                            WeatherData.WeatherDetail wwd = new WeatherData.WeatherDetail();
+                            wwd.mCity = weatherData.cityName;
+                            wwd.mCurrWeather = wd.currentTemperature + "℃";
+                            wwd.mMaxWeather = wd.highestTemperature + "℃";
+                            wwd.mMinWeather = wd.lowestTemperature + "℃";
+                            wwd.mWeek = WEEK_CONSTANTS[wd.dayOfWeek - 1];
+                            wwd.mSugguest = wd.quality;
+                            wwd.mWeatherDesc = wd.weather;
+                            if (i == 0) {
+                                wwd.mIconResId = getResourceIdByWeather(wd.weather);
+                            } else {
+                                wwd.mIconResId = getSmallResByWeather(wd.weather);
+                            }
+                            wds.add(wwd);
+                        }
+                        wData.mWeatherList = wds;
+                    }
+
+                    mCacheWeatherData = wData;
+                    if (mWeatherListener != null) {
+                        mWeatherListener.onWeatherUpdate(wData);
+                    }
+                }
+
+                @Override
+                public void onError(int i) {
+                    hasRequestWeather = false;
+                }
+            });
+            hasRequestWeather = true;
         }
     };
 
-    public static final String[] WEEK_CONSTANTS = {"周一", "周二", "周三", "周四", "周五", "周六", "周日"};
+    public static final String[] WEEK_CONSTANTS = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
 
     @Override
     public int getInterfacePriority() {
@@ -155,7 +148,6 @@ public class WeatherTxzApi implements DataApi<WeatherData> {
         int id = 0;
         if (weather == null || weather.equals(""))
             return id;
-        // 过滤小到XXXX 中到XXX 大到XXXXX
         if (weather.contains("到")) {
             int index = weather.indexOf("到");
             weather = weather.substring(index + 1, weather.length());
@@ -319,5 +311,19 @@ public class WeatherTxzApi implements DataApi<WeatherData> {
             id = R.drawable.weather_na_small;
         }
         return id;
+    }
+
+    @Override
+    public void register(WeatherListener listener) {
+        mWeatherListener = listener;
+    }
+
+    @Override
+    public void unRegister() {
+        mWeatherListener = null;
+    }
+
+    public interface WeatherListener {
+        void onWeatherUpdate(WeatherData wd);
     }
 }

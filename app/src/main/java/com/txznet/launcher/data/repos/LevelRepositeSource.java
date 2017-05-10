@@ -9,12 +9,12 @@ import rx.Observable;
 /**
  * Created by TXZ-METEORLUO on 2017/4/14.
  */
-public abstract class LevelRepositeSource<T> extends BaseDataRepo<T, Integer> {
+public abstract class LevelRepositeSource<T, F> extends BaseDataRepo<T, Integer, F> {
     private static final String TAG = LevelRepositeSource.class.getSimpleName();
 
-    private DataApi<T>[] mInters;
+    private DataApi<T, F>[] mInters;
 
-    public LevelRepositeSource(DataApi<T>... inters) {
+    public LevelRepositeSource(DataApi<T, F>... inters) {
         this.mInters = inters;
     }
 
@@ -27,7 +27,7 @@ public abstract class LevelRepositeSource<T> extends BaseDataRepo<T, Integer> {
             return;
         }
 
-        for (DataApi<T> inter : mInters) {
+        for (DataApi<T, F> inter : mInters) {
             inter.initialize(null);
         }
 
@@ -43,7 +43,7 @@ public abstract class LevelRepositeSource<T> extends BaseDataRepo<T, Integer> {
         if (mInters != null && mInters.length > 0) {
             int fixPos = 0;
             for (int i = 1; i < mInters.length; i++) {
-                DataApi<T> inter = mInters[i];
+                DataApi<T, F> inter = mInters[i];
                 if (mInters[fixPos].getInterfacePriority() < inter.getInterfacePriority()) {
                     fixPos = i;
                 }
@@ -64,16 +64,16 @@ public abstract class LevelRepositeSource<T> extends BaseDataRepo<T, Integer> {
 
     @Override
     protected Observable<T> getNewData() {
-        DataApi<T> inter = getCurrInterface();
+        DataApi<T, F> inter = getCurrInterface();
         return inter.reqData(true);
     }
 
-    public DataApi<T> getCurrInterface() {
+    public DataApi<T, F> getCurrInterface() {
         int index = 0;
         if (mCurrReqKey != null) {
             index = mCurrReqKey;
         }
-        DataApi<T> inter = mInters[index];
+        DataApi<T, F> inter = mInters[index];
         Log.d(TAG, "getNewData with index:" + index + ",class:" + inter.getClass().getSimpleName());
         return inter;
     }

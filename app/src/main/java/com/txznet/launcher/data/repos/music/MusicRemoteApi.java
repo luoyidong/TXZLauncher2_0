@@ -10,7 +10,7 @@ import rx.Observable;
  * Created by UPC on 2017/4/16.
  */
 
-public class MusicRemoteApi implements DataApi<MusicData>, MusicApi {
+public class MusicRemoteApi implements DataApi<MusicData, MusicApi.OnMusicStateListener>, MusicApi {
 
     @Override
     public void startApp() {
@@ -64,6 +64,16 @@ public class MusicRemoteApi implements DataApi<MusicData>, MusicApi {
 
     @Override
     public void playPre() {
+
+    }
+
+    @Override
+    public void register(OnMusicStateListener listener) {
+
+    }
+
+    @Override
+    public void unRegister() {
 
     }
 }

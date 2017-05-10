@@ -25,6 +25,7 @@ public class StatusSource implements CardsSourceApi<BaseModel> {
                 List<BaseModel> statusModel = new ArrayList<>();
                 statusModel.add((BaseModel) DataConvertor.getInstance().createFromType(BaseModel.TYPE_WEATHER, true));
                 statusModel.add((BaseModel) DataConvertor.getInstance().createFromType(BaseModel.TYPE_MORE_APP, true));
+                statusModel.add((BaseModel) DataConvertor.getInstance().createFromType(BaseModel.TYPE_MUSIC, true));
                 subscriber.onNext(statusModel);
                 subscriber.onCompleted();
             }

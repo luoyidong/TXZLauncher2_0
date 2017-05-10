@@ -9,15 +9,15 @@ import com.txznet.launcher.data.model.BaseModel;
  */
 public interface CardsRepoApi<T> extends CardsSourceApi<T> {
 
-    void swapCards(int before, int after);
+    boolean swapCards(int before, int after);
 
-    void closeCard(@NonNull BaseModel bm);
+    boolean closeCard(@NonNull BaseModel bm);
 
-    void closeCard(int pos);
+    boolean closeCard(int pos);
 
-    void addCard(BaseModel bm);
+    boolean addCard(BaseModel bm);
 
-    void saveCard(BaseModel bm);
+    boolean saveCard(BaseModel bm);
 
     boolean isDbReady();
 }

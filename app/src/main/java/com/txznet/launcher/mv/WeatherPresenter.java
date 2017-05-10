@@ -4,7 +4,11 @@ import android.util.Log;
 
 import com.txznet.launcher.data.data.WeatherData;
 import com.txznet.launcher.data.repos.weather.WeatherLevelRepoSource;
+import com.txznet.launcher.data.repos.weather.WeatherTxzApi;
 import com.txznet.launcher.mv.contract.WeatherContract;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -21,9 +25,15 @@ public class WeatherPresenter extends WeatherContract.Presenter {
     private boolean mIsFirstRequest = true;
     private WeatherLevelRepoSource mRepoSource;
 
+    private WeatherTxzApi.WeatherListener mWeatherListener = new WeatherTxzApi.WeatherListener() {
+        @Override
+        public void onWeatherUpdate(WeatherData wd) {
+            parseWeatherData(wd);
+        }
+    };
+
     @Inject
     public WeatherPresenter(WeatherLevelRepoSource repoSource) {
-        Log.d(TAG, "WeatherPresenter:" + repoSource);
         this.mRepoSource = repoSource;
     }
 
@@ -31,31 +41,37 @@ public class WeatherPresenter extends WeatherContract.Presenter {
     public void attachView(WeatherContract.View view) {
         super.attachView(view);
 
+        mRepoSource.register(mWeatherListener);
+
         mCompositeSubscription.add(mRepoSource.reqData(mIsFirstRequest)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<WeatherData>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(TAG, "onCompleted");
                         mIsFirstRequest = false;
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d(TAG, "onError");
-
                     }
 
                     @Override
                     public void onNext(WeatherData weatherData) {
-                        Log.d(TAG, "onNext:" + weatherData);
                         parseWeatherData(weatherData);
                     }
                 }));
     }
 
+    @Override
+    public void detachView() {
+        super.detachView();
+        mRepoSource.unRegister();
+    }
+
     private void parseWeatherData(WeatherData wd) {
+        Log.d(TAG, "parseWeatherData:" + wd.toString());
+
         if (wd != null && wd.mWeatherList != null && wd.mWeatherList.size() > 0) {
             // 今天的天气取第一个
             WeatherData.WeatherDetail today = wd.mWeatherList.get(0);
@@ -65,8 +81,10 @@ public class WeatherPresenter extends WeatherContract.Presenter {
             getMvpView().setCity(today.mCity);
 
             // 设置天气详情
-            wd.mWeatherList.remove(0);
-            getMvpView().bindWeathers(wd.mWeatherList);
+            List<WeatherData.WeatherDetail> wds = new ArrayList<>();
+            wds.addAll(wd.mWeatherList);
+            wds.remove(0);
+            getMvpView().bindWeathers(wds);
         }
     }
 

@@ -1,7 +1,5 @@
 package com.txznet.launcher.data.repos.music;
 
-import android.util.Log;
-
 import com.txznet.launcher.data.api.DataApi;
 import com.txznet.launcher.data.api.MusicApi;
 import com.txznet.launcher.data.data.MusicData;
@@ -14,11 +12,11 @@ import javax.inject.Singleton;
  * Created by TXZ-METEORLUO on 2017/4/14.
  */
 @Singleton
-public class MusicLevelRepoSource extends LevelRepositeSource<MusicData> implements MusicApi {
+public class MusicLevelRepoSource extends LevelRepositeSource<MusicData, MusicApi.OnMusicStateListener> implements MusicApi {
     private static final String TAG = MusicLevelRepoSource.class.getSimpleName();
 
     @Inject
-    public MusicLevelRepoSource(DataApi<MusicData>... mds) {
+    public MusicLevelRepoSource(DataApi<MusicData, OnMusicStateListener>... mds) {
         super(mds);
 
         initialize(new OnInitListener() {
@@ -29,11 +27,10 @@ public class MusicLevelRepoSource extends LevelRepositeSource<MusicData> impleme
     }
 
     private MusicApi getCurrInstance() {
-        DataApi<MusicData> currInstance = getCurrInterface();
+        DataApi<MusicData,OnMusicStateListener> currInstance = getCurrInterface();
         if (currInstance instanceof MusicApi) {
             return (MusicApi) currInstance;
         }
-        Log.w(TAG, "currMusicApi is null!");
         return null;
     }
 
@@ -92,5 +89,19 @@ public class MusicLevelRepoSource extends LevelRepositeSource<MusicData> impleme
             return getCurrInstance().isReady();
         }
         return false;
+    }
+
+    @Override
+    public void register(OnMusicStateListener listener) {
+        if (getCurrInstance() != null) {
+            getCurrInstance().register(listener);
+        }
+    }
+
+    @Override
+    public void unRegister() {
+        if (getCurrInstance() != null) {
+            getCurrInstance().unRegister();
+        }
     }
 }

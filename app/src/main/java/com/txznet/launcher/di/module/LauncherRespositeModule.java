@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.txznet.launcher.data.api.CardsSourceApi;
 import com.txznet.launcher.data.api.DataApi;
+import com.txznet.launcher.data.api.MusicApi;
+import com.txznet.launcher.data.api.NavApi;
 import com.txznet.launcher.data.data.MusicData;
 import com.txznet.launcher.data.data.NavData;
 import com.txznet.launcher.data.data.WeatherData;
@@ -13,7 +15,6 @@ import com.txznet.launcher.data.repos.weather.WeatherTxzApi;
 import com.txznet.launcher.data.source.DbSource;
 import com.txznet.launcher.data.source.PmSource;
 import com.txznet.launcher.data.source.StatusSource;
-import com.txznet.launcher.db.dao.CardDao;
 import com.txznet.launcher.di.Db;
 import com.txznet.launcher.di.Pm;
 import com.txznet.launcher.di.Ss;
@@ -39,8 +40,8 @@ public class LauncherRespositeModule {
     @Singleton
     @Provides
     @Db
-    CardsSourceApi provideDbCardsSourceApi(Context context) {
-        return new DbSource(context, CardDao.getInstance());
+    DbSource provideDbCardsSourceApi(Context context) {
+        return new DbSource(context);
     }
 
     @Singleton
@@ -52,24 +53,24 @@ public class LauncherRespositeModule {
 
     @Singleton
     @Provides
-    DataApi<MusicData>[] provideMusicInterface(Context context) {
-        DataApi<MusicData>[] faces = new DataApi[1];
+    DataApi<MusicData, MusicApi.OnMusicStateListener>[] provideMusicInterface(Context context) {
+        DataApi<MusicData, MusicApi.OnMusicStateListener>[] faces = new DataApi[1];
         faces[0] = new MusicTxzApi(context);
         return faces;
     }
 
     @Singleton
     @Provides
-    DataApi<WeatherData>[] provideWeatherInterface(Context context) {
-        DataApi<WeatherData>[] faces = new DataApi[1];
+    DataApi<WeatherData, WeatherTxzApi.WeatherListener>[] provideWeatherInterface(Context context) {
+        DataApi<WeatherData, WeatherTxzApi.WeatherListener>[] faces = new DataApi[1];
         faces[0] = new WeatherTxzApi();
         return faces;
     }
 
     @Singleton
     @Provides
-    DataApi<NavData>[] provideNavInterface(Context context) {
-        DataApi<NavData>[] faces = new DataApi[1];
+    DataApi<NavData, NavApi.OnNavListener>[] provideNavInterface(Context context) {
+        DataApi<NavData, NavApi.OnNavListener>[] faces = new DataApi[1];
         faces[0] = new NavTxzApi(context);
         return faces;
     }

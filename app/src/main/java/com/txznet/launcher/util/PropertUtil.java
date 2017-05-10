@@ -3,6 +3,7 @@ package com.txznet.launcher.util;
 import android.os.Environment;
 import android.text.TextUtils;
 
+import com.txznet.launcher.LauncherApp;
 import com.txznet.launcher.module.PackageManager;
 
 import java.io.File;
@@ -90,7 +91,11 @@ public class PropertUtil {
             try {
                 sProperties.load(new FileInputStream(DEFAULT_FILE_PATH));
             } catch (IOException e1) {
-                e1.printStackTrace();
+                try {
+                    sProperties.load(LauncherApp.sApp.getAssets().open(PROPERT_NAME));
+                } catch (IOException e2) {
+                    e2.printStackTrace();
+                }
             }
         }
     }

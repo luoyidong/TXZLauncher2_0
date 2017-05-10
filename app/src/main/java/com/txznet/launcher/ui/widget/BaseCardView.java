@@ -57,9 +57,9 @@ public abstract class BaseCardView<T extends CardContract.Presenter> extends Swi
     public void initView() {
         int layoutId = getLayoutId();
         View view = View.inflate(getContext(), layoutId, null);
+        setContentView(view);
         findViewById(view);
         initWidget();
-        setContentView(view);
     }
 
     @Override
@@ -78,6 +78,11 @@ public abstract class BaseCardView<T extends CardContract.Presenter> extends Swi
         }
 
         smoothClose();
+    }
+
+    @Override
+    public UiCard getCardModel() {
+        return mUseModel;
     }
 
     // 获取所属的布局文件Id

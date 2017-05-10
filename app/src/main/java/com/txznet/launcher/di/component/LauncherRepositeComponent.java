@@ -1,5 +1,6 @@
 package com.txznet.launcher.di.component;
 
+import com.txznet.launcher.data.repos.AppRepositeSource;
 import com.txznet.launcher.data.repos.CardsRepositeSource;
 import com.txznet.launcher.data.repos.brand.AdasRepoSource;
 import com.txznet.launcher.data.repos.music.MusicLevelRepoSource;
@@ -28,4 +29,6 @@ public interface LauncherRepositeComponent {
     NaviLevelRepoSource getNaviRepoSource();
 
     AdasRepoSource getAdasRepoSource();
+
+    AppRepositeSource getAppRepositeSource();
 }

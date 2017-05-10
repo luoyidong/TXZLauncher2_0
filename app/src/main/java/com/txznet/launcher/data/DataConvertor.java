@@ -2,8 +2,8 @@ package com.txznet.launcher.data;
 
 import android.util.Log;
 
-import com.txznet.launcher.data.api.DataCreateApi;
 import com.txznet.launcher.data.api.DataConvertApi;
+import com.txznet.launcher.data.api.DataCreateApi;
 import com.txznet.launcher.data.model.AppInfo;
 import com.txznet.launcher.data.model.BaseModel;
 import com.txznet.launcher.db.CardBean;

@@ -25,11 +25,11 @@ public class SpUtil {
         return spUtil;
     }
 
-    public void setFirstEnterFlag(boolean isFirst) {
+    public void setFirstLoadFlag(boolean isFirst) {
         putBoolean(KEY_FIRST_ENTRY, isFirst);
     }
 
-    public boolean isFirstEnter() {
+    public boolean isFirstLoadCards() {
         return getBoolean(KEY_FIRST_ENTRY, true);
     }
 

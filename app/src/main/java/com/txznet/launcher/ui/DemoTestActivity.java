@@ -6,10 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 
 import com.txznet.launcher.R;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,11 +33,27 @@ public class DemoTestActivity extends Activity {
     @BindView(R.id.start_btn)
     Button mStartBtn;
 
+    private TextToSpeech mTts;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
         ButterKnife.bind(this);
+
+        mTts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                mTts.setLanguage(Locale.ENGLISH);
+            }
+        });
+
+        findViewById(R.id.start_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTts.speak("oh gril,what can i do for you", TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
     }
 
     CompositeSubscription cs = new CompositeSubscription();

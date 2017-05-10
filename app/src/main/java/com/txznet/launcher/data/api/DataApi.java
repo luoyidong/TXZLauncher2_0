@@ -1,13 +1,12 @@
 package com.txznet.launcher.data.api;
 
 import rx.Observable;
-import rx.Subscriber;
 
 /**
  * Created by TXZ-METEORLUO on 2017/4/14.
  * 用于提供卡片数据的信息源
  */
-public interface DataApi<T> {
+public interface DataApi<T, F> extends AsyncApi<F> {
 
     interface OnInitListener {
         void onInit(boolean bSucc);

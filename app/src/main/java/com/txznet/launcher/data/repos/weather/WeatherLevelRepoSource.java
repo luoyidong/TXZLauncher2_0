@@ -11,10 +11,10 @@ import javax.inject.Singleton;
  * Created by TXZ-METEORLUO on 2017/4/14.
  */
 @Singleton
-public class WeatherLevelRepoSource extends LevelRepositeSource<WeatherData> {
+public class WeatherLevelRepoSource extends LevelRepositeSource<WeatherData, WeatherTxzApi.WeatherListener> {
 
     @Inject
-    public WeatherLevelRepoSource(DataApi<WeatherData>... wds) {
+    public WeatherLevelRepoSource(DataApi<WeatherData, WeatherTxzApi.WeatherListener>... wds) {
         super(wds);
 
         initialize(new OnInitListener() {
@@ -22,5 +22,19 @@ public class WeatherLevelRepoSource extends LevelRepositeSource<WeatherData> {
             public void onInit(boolean bSucc) {
             }
         });
+    }
+
+    @Override
+    public void register(WeatherTxzApi.WeatherListener listener) {
+        if (getCurrInterface() != null) {
+            getCurrInterface().register(listener);
+        }
+    }
+
+    @Override
+    public void unRegister() {
+        if (getCurrInterface() != null) {
+            getCurrInterface().unRegister();
+        }
     }
 }

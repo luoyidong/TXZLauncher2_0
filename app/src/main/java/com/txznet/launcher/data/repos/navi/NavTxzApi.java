@@ -24,11 +24,12 @@ import rx.Subscriber;
 /**
  * Created by TXZ-METEORLUO on 2017/4/24.
  */
-public class NavTxzApi implements DataApi<NavData>, NavApi {
+public class NavTxzApi implements DataApi<NavData, NavApi.OnNavListener>, NavApi {
     private static final String TAG = NavTxzApi.class.getSimpleName();
     private Context mContext;
     private NavData mTmpNavData;
-    private Subscriber<? super NavData> mSubscriber;
+
+    private OnNavListener mOnNavListener;
 
     @Inject
     public NavTxzApi(Context context) {
@@ -56,15 +57,9 @@ public class NavTxzApi implements DataApi<NavData>, NavApi {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Log.d(TAG, "NavTxzApi onReceiver");
-                if (mSubscriber != null) {
-                    mSubscriber.onStart();
-                }
                 try {
                     String navJson = intent.getStringExtra("KEY_NAVI_INFO");
                     if (TextUtils.isEmpty(navJson)) {
-                        if (mSubscriber != null) {
-                            mSubscriber.onError(new NullPointerException("receiver null navJson"));
-                        }
                         return;
                     }
 
@@ -122,15 +117,10 @@ public class NavTxzApi implements DataApi<NavData>, NavApi {
                         mTmpNavData.currentSpeed = jsonObject.optInt("currentSpeed");
                     }
 
-                    mSubscriber.onNext(mTmpNavData);
+                    if (mOnNavListener != null) {
+                        mOnNavListener.onNavUpdate(mTmpNavData);
+                    }
                 } catch (Exception e) {
-                    if (mSubscriber != null) {
-                        mSubscriber.onError(e);
-                    }
-                } finally {
-                    if (mSubscriber != null) {
-                        mSubscriber.onCompleted();
-                    }
                 }
             }
         }, filter);
@@ -142,11 +132,10 @@ public class NavTxzApi implements DataApi<NavData>, NavApi {
 
             @Override
             public void call(Subscriber<? super NavData> subscriber) {
-                mSubscriber = subscriber;
                 if (mTmpNavData != null) {
-                    mSubscriber.onStart();
-                    mSubscriber.onNext(mTmpNavData);
-                    mSubscriber.onCompleted();
+                    subscriber.onStart();
+                    subscriber.onNext(mTmpNavData);
+                    subscriber.onCompleted();
                 }
             }
         });
@@ -165,5 +154,15 @@ public class NavTxzApi implements DataApi<NavData>, NavApi {
     @Override
     public void navigateCompany() {
         TXZNavManager.getInstance().navCompany();
+    }
+
+    @Override
+    public void register(OnNavListener listener) {
+        mOnNavListener = listener;
+    }
+
+    @Override
+    public void unRegister() {
+        mOnNavListener = null;
     }
 }

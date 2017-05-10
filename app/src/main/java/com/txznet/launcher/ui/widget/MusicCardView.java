@@ -202,7 +202,7 @@ public class MusicCardView extends BaseCardView<MusicPresenter> implements Music
     }
 
     @Override
-    public void setSongTilte(String songTitle) {
+    public void setSongTitle(String songTitle) {
         setName(songTitle);
     }
 

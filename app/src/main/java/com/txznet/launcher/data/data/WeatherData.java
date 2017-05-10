@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -57,5 +58,25 @@ public class WeatherData {
             }
             return this;
         }
+    }
+
+    @Override
+    public String toString() {
+        JSONObject jo = new JSONObject();
+        try {
+            jo.put("mCityName", mCityName);
+            jo.put("mCityCode", mCityCode);
+            if (mWeatherList != null && mWeatherList.size() > 0) {
+                List<String> wds = new ArrayList<>();
+                for (int i = 0; i < mWeatherList.size(); i++) {
+                    WeatherDetail wd = mWeatherList.get(i);
+                    wds.add(wd.toJson());
+                }
+            }
+            return jo.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return super.toString();
     }
 }

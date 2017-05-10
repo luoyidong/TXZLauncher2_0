@@ -11,7 +11,6 @@ public class BaseModel extends AppInfo {
     /**
      * 界面元素
      **/
-    public String name;
     public String desc;
     public int bgColor;
     public int btnType;

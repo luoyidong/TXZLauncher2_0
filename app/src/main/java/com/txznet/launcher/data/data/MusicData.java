@@ -33,4 +33,11 @@ public class MusicData {
      * 总共时间
      */
     public int totalProgress;
+
+    @Override
+    public String toString() {
+        return "mediaState:" + mediaState + ",songTitle:" + songTitle
+                + ",artistName:" + artistName + ",albumPic:" + albumPic
+                + ",currProgress:" + currProgress + ",totalProgress:" + totalProgress;
+    }
 }

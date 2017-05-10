@@ -13,7 +13,7 @@ import rx.Observable;
  * Created by TXZ-METEORLUO on 2017/4/14.
  * TODO 这一层负责做缓存管理(DataApi这一层其实不能是rxjava数据层，应该是真正的获取数据层，不应该介入rxJava)
  */
-public abstract class BaseDataRepo<T, F extends Integer> implements DataApi<T> {
+public abstract class BaseDataRepo<T, F extends Integer, H> implements DataApi<T, H> {
     private static final String TAG = BaseDataRepo.class.getSimpleName();
     private boolean mUseCache = false;
     protected F mCurrReqKey;
@@ -66,6 +66,16 @@ public abstract class BaseDataRepo<T, F extends Integer> implements DataApi<T> {
         Log.d(TAG, "getCacheDataByKey:" + key);
 
         return mCacheData.get(key);
+    }
+
+    @Override
+    public void register(H listener) {
+
+    }
+
+    @Override
+    public void unRegister() {
+
     }
 
     @Override

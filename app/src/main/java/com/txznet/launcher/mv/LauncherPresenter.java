@@ -16,6 +16,7 @@ import javax.inject.Inject;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -44,12 +45,10 @@ public class LauncherPresenter extends LauncherContract.Presenter {
     }
 
     private void loadCards(final boolean showingLoading) {
-        Log.d(TAG, "loadCards with loading:" + showingLoading);
         if (showingLoading) {
             getMvpView().showLoading();
         }
 
-        mCompositeSubscription.clear();
         mCompositeSubscription.add(mRepoSource.loadCards()
                 .map(new Func1<List<BaseModel>, List<UiCard>>() {
                     @Override
@@ -63,10 +62,17 @@ public class LauncherPresenter extends LauncherContract.Presenter {
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnTerminate(new Action0() {
+                    @Override
+                    public void call() {
+                        if (showingLoading) {
+                            getMvpView().dismissLoading();
+                        }
+                    }
+                })
                 .subscribe(new Subscriber<List<UiCard>>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(TAG, "onCompleted");
                         if (showingLoading) {
                             getMvpView().dismissLoading();
                         }
@@ -74,8 +80,10 @@ public class LauncherPresenter extends LauncherContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d(TAG, "onError");
                         getMvpView().showError(e);
+                        if (showingLoading) {
+                            getMvpView().dismissLoading();
+                        }
                     }
 
                     @Override
@@ -91,15 +99,12 @@ public class LauncherPresenter extends LauncherContract.Presenter {
     UiCard convertToUiCard(BaseModel bm) {
         UiCard card = new UiCard();
         card.type = bm.type;
-        // TODO 是否虚拟
         card.packageName = bm.packageName;
         card.backgroundColor = bm.bgColor;
         card.desc = bm.desc;
         PackageManager.AppInfo appInfo = PackageManager.getInstance().getAppInfo(bm.packageName);
         if (TextUtils.isEmpty(bm.name) && appInfo != null) {
-            // 通过包名尝试获取，不用在生成BaseModel的时候就获取名字
             card.name = appInfo.appName;
-            card.iconDrawable = appInfo.appIcon;
         } else {
             card.name = bm.name;
         }
@@ -117,11 +122,15 @@ public class LauncherPresenter extends LauncherContract.Presenter {
 
     @Override
     public void removeCard(int pos) {
-        mRepoSource.closeCard(pos);
+        if (mRepoSource.closeCard(pos)) {
+            getMvpView().notifyRemove(pos);
+        }
     }
 
     @Override
     public void swapCards(int before, int after) {
-        mRepoSource.swapCards(before, after);
+        if (mRepoSource.swapCards(before, after)) {
+            getMvpView().swapList(before, after);
+        }
     }
 }

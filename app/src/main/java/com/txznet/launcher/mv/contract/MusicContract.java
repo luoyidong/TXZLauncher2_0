@@ -1,7 +1,5 @@
 package com.txznet.launcher.mv.contract;
 
-import com.txznet.launcher.mv.contract.CardContract;
-
 /**
  * Created by UPC on 2017/4/15.
  */
@@ -12,7 +10,7 @@ public interface MusicContract {
 
         void setMediaState(int state);
 
-        void setSongTilte(String songTitle);
+        void setSongTitle(String songTitle);
 
         void setArtistName(String artistName);
 

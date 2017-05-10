@@ -13,8 +13,4 @@ public class SimplePresenter extends CardContract.Presenter<CardContract.View> {
     @Inject
     public SimplePresenter() {
     }
-
-    @Override
-    public void onClickBlank() {
-    }
 }

@@ -6,7 +6,7 @@ import com.txznet.launcher.data.DataConvertor;
 import com.txznet.launcher.data.api.CardsRepoApi;
 import com.txznet.launcher.data.api.CardsSourceApi;
 import com.txznet.launcher.data.model.BaseModel;
-import com.txznet.launcher.data.source.StatusSource;
+import com.txznet.launcher.data.source.DbSource;
 import com.txznet.launcher.di.Db;
 import com.txznet.launcher.di.Pm;
 import com.txznet.launcher.di.Ss;
@@ -21,6 +21,7 @@ import javax.inject.Singleton;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.functions.Func2;
 
 /**
  * Created by TXZ-METEORLUO on 2017/3/30.
@@ -33,7 +34,7 @@ public class CardsRepositeSource implements CardsRepoApi<BaseModel> {
     private CardsSourceApi mStatusSource;
 
     @Inject
-    public CardsRepositeSource(@Pm @NonNull CardsSourceApi pm, @Db @NonNull CardsSourceApi db, @Ss @NonNull CardsSourceApi ss) {
+    public CardsRepositeSource(@Pm @NonNull CardsSourceApi pm, @Db @NonNull DbSource db, @Ss @NonNull CardsSourceApi ss) {
         this.mPmSource = pm;
         this.mDbSource = (CardsRepoApi) db;
         this.mStatusSource = ss;
@@ -41,16 +42,14 @@ public class CardsRepositeSource implements CardsRepoApi<BaseModel> {
 
     @Override
     public Observable<List<BaseModel>> loadCards() {
-        boolean isFirst = SpUtil.getInstance().isFirstEnter();
+        boolean isFirst = SpUtil.getInstance().isFirstLoadCards();
         if (!isFirst) {
             return mDbSource.loadCards();
         }
-        SpUtil.getInstance().setFirstEnterFlag(false);
+        SpUtil.getInstance().setFirstLoadFlag(false);
 
         Observable<List<String>> datas = mPmSource.loadCards();
-        Observable<List<BaseModel>> sDatas = mStatusSource.loadCards();
-
-        return Observable.concat(datas.map(new Func1<List<String>, List<BaseModel>>() {
+        Observable<List<BaseModel>> pDatas = datas.map(new Func1<List<String>, List<BaseModel>>() {
 
             @Override
             public List<BaseModel> call(List<String> strings) {
@@ -64,8 +63,18 @@ public class CardsRepositeSource implements CardsRepoApi<BaseModel> {
                 }
                 return bms;
             }
-        }), sDatas).doOnNext(new Action1<List<BaseModel>>() {
+        });
+        Observable<List<BaseModel>> sDatas = mStatusSource.loadCards();
 
+        return Observable.zip(pDatas, sDatas, new Func2<List<BaseModel>, List<BaseModel>, List<BaseModel>>() {
+            @Override
+            public List<BaseModel> call(List<BaseModel> baseModels, List<BaseModel> baseModels2) {
+                List<BaseModel> models = new ArrayList<>();
+                models.addAll(baseModels);
+                models.addAll(baseModels2);
+                return models;
+            }
+        }).doOnNext(new Action1<List<BaseModel>>() {
             @Override
             public void call(List<BaseModel> baseModels) {
                 for (BaseModel bm : baseModels) {
@@ -73,29 +82,6 @@ public class CardsRepositeSource implements CardsRepoApi<BaseModel> {
                 }
             }
         });
-//        return datas.map(new Func1<List<String>, List<BaseModel>>() {
-//
-//            @Override
-//            public List<BaseModel> call(List<String> strings) {
-//                List<BaseModel> bms = new ArrayList<>();
-//                for (String p : strings) {
-//                    BaseModel bm = convertPackageToBm(p);
-//                    if (bm == null) {
-//                        continue;
-//                    }
-//                    bms.add(bm);
-//                }
-//                return bms;
-//            }
-//        }).doOnNext(new Action1<List<BaseModel>>() {
-//
-//            @Override
-//            public void call(List<BaseModel> baseModels) {
-//                for (BaseModel bm : baseModels) {
-//                    mDbSource.addCard(bm);
-//                }
-//            }
-//        });
     }
 
     private BaseModel convertPackageToBm(String packageName) {
@@ -103,28 +89,28 @@ public class CardsRepositeSource implements CardsRepoApi<BaseModel> {
     }
 
     @Override
-    public void swapCards(int before, int after) {
-        mDbSource.swapCards(before, after);
+    public boolean swapCards(int before, int after) {
+        return mDbSource.swapCards(before, after);
     }
 
     @Override
-    public void closeCard(@NonNull BaseModel bm) {
-        mDbSource.closeCard(bm);
+    public boolean closeCard(@NonNull BaseModel bm) {
+        return mDbSource.closeCard(bm);
     }
 
     @Override
-    public void closeCard(int pos) {
-        mDbSource.closeCard(pos);
+    public boolean closeCard(int pos) {
+        return mDbSource.closeCard(pos);
     }
 
     @Override
-    public void addCard(BaseModel bm) {
-        mDbSource.addCard(bm);
+    public boolean addCard(BaseModel bm) {
+        return mDbSource.addCard(bm);
     }
 
     @Override
-    public void saveCard(BaseModel bm) {
-        mDbSource.saveCard(bm);
+    public boolean saveCard(BaseModel bm) {
+        return mDbSource.saveCard(bm);
     }
 
     @Override

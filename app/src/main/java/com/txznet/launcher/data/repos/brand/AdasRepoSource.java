@@ -13,7 +13,7 @@ import rx.Subscriber;
  * Created by UPC on 2017/4/15.
  */
 @Singleton
-public class AdasRepoSource extends BaseDataRepo<AdasData, Integer> {
+public class AdasRepoSource extends BaseDataRepo<AdasData, Integer, AdasRepoSource.OnAdasListener> {
 
     @Inject
     public AdasRepoSource() {
@@ -38,5 +38,19 @@ public class AdasRepoSource extends BaseDataRepo<AdasData, Integer> {
         if (listener != null) {
             listener.onInit(true);
         }
+    }
+
+    @Override
+    public void register(OnAdasListener listener) {
+
+    }
+
+    @Override
+    public void unRegister() {
+
+    }
+
+    public interface OnAdasListener {
+        public void onAdasUpdate(AdasData ad);
     }
 }

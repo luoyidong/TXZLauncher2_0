@@ -2,4 +2,6 @@
 <resources>
     <item name="flag_hasScale" type="id" />
     <item name="flag_hasShake" type="id" />
+    <item name="flag_bindApp" type="id" />
+    <item name="flag_dragTag" type="id" />
 </resources>

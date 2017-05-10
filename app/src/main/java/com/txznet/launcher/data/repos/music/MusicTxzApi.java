@@ -22,12 +22,12 @@ import rx.Subscriber;
  * Created by UPC on 2017/4/14.
  */
 @Singleton
-public class MusicTxzApi implements DataApi<MusicData>, MusicApi {
+public class MusicTxzApi implements DataApi<MusicData, MusicApi.OnMusicStateListener>, MusicApi {
     static final String TAG = MusicTxzApi.class.getSimpleName();
 
     private Context mContext;
     private MusicData mCurrTmpData;
-    private Subscriber<? super MusicData> mSubscriber;
+    private OnMusicStateListener mMusicStateListener;
 
     @Inject
     public MusicTxzApi(Context context) {
@@ -57,53 +57,37 @@ public class MusicTxzApi implements DataApi<MusicData>, MusicApi {
             @Override
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
-                Log.d(TAG, "onReceive action:" + action);
-                try {
-                    if (mSubscriber != null) {
-                        mSubscriber.onStart();
-                    }
 
-                    if (mCurrTmpData == null) {
-                        mCurrTmpData = new MusicData();
-                    }
+                if (mCurrTmpData == null) {
+                    mCurrTmpData = new MusicData();
+                }
 
-                    if (Constants.KeyValueConstants.KeyValueMusic.TXZ_STATUS_CHANGE_ACTION.equals(action)) {
-                        /**
-                         1：缓冲
-                         2：播放
-                         3：暂停
-                         4：退出
-                         */
-                        int status = intent.getIntExtra("status", 0);
+                if (Constants.KeyValueConstants.KeyValueMusic.TXZ_STATUS_CHANGE_ACTION.equals(action)) {
+                    /**
+                     1：缓冲
+                     2：播放
+                     3：暂停
+                     4：退出
+                     */
+                    int status = intent.getIntExtra("status", 0);
+                    mCurrTmpData.mediaState = status;
+                    if (mMusicStateListener != null) {
+                        mMusicStateListener.onMusicUpdate(mCurrTmpData);
+                    }
+                } else if (Constants.KeyValueConstants.KeyValueMusic.TXZ_MUSIC_INFO_ACTION.equals(action)) {
+                    String arts = intent.getStringExtra("artists");
+                    String title = intent.getStringExtra("title");
+                    String logo = intent.getStringExtra("logo");
+                    int status = intent.getIntExtra("status", 0);
+                    if (status != 0) {
                         mCurrTmpData.mediaState = status;
-                        if (mSubscriber != null) {
-                            mSubscriber.onNext(mCurrTmpData);
-                        }
-                    } else if (Constants.KeyValueConstants.KeyValueMusic.TXZ_MUSIC_INFO_ACTION.equals(action)) {
-                        String arts = intent.getStringExtra("artists");
-                        String title = intent.getStringExtra("title");
-                        String logo = intent.getStringExtra("logo");
-                        int status = intent.getIntExtra("status", 0);
-                        Log.d(TAG, "status:" + status + ",arts:" + arts + ",title:" + title + ",albumPic:" + logo);
-                        if (status != 0) {
-                            mCurrTmpData.mediaState = status;
-                        }
+                    }
 
-                        mCurrTmpData.songTitle = title;
-                        mCurrTmpData.artistName = arts;
-                        mCurrTmpData.albumPic = logo;
-                        if (mSubscriber != null) {
-                            mSubscriber.onNext(mCurrTmpData);
-                        }
-                    }
-                } catch (Exception e) {
-                    if (mSubscriber != null) {
-                        e.printStackTrace();
-                        mSubscriber.onError(e);
-                    }
-                } finally {
-                    if (mSubscriber != null) {
-                        mSubscriber.onCompleted();
+                    mCurrTmpData.songTitle = title;
+                    mCurrTmpData.artistName = arts;
+                    mCurrTmpData.albumPic = logo;
+                    if (mMusicStateListener != null) {
+                        mMusicStateListener.onMusicUpdate(mCurrTmpData);
                     }
                 }
             }
@@ -116,14 +100,25 @@ public class MusicTxzApi implements DataApi<MusicData>, MusicApi {
         return Observable.create(new Observable.OnSubscribe<MusicData>() {
             @Override
             public void call(Subscriber<? super MusicData> subscriber) {
-                mSubscriber = subscriber;
                 if (mCurrTmpData != null) {
-                    mSubscriber.onStart();
-                    mSubscriber.onNext(mCurrTmpData);
-                    mSubscriber.onCompleted();
+                    subscriber.onStart();
+                    subscriber.onNext(mCurrTmpData);
+                    subscriber.onCompleted();
                 }
+
+                reqState();
             }
         });
+    }
+
+    @Override
+    public void register(OnMusicStateListener listener) {
+        mMusicStateListener = listener;
+    }
+
+    @Override
+    public void unRegister() {
+        mMusicStateListener = null;
     }
 
     @Override
@@ -173,6 +168,6 @@ public class MusicTxzApi implements DataApi<MusicData>, MusicApi {
     private void dispatchAction(String action) {
         Log.d(TAG, "dispatchAction:" + action);
         Intent intent = new Intent(action);
-        mContext.startActivity(intent);
+        mContext.sendBroadcast(intent);
     }
 }

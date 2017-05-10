@@ -37,39 +37,43 @@ public class DbSource implements CardsRepoApi<BaseModel>, AppsRepoApi<AppInfo> {
     private List<CardBean> mAllTmpList = new ArrayList<>();
 
     @Inject
-    public DbSource(Context context, CardDao cd) {
+    public DbSource(Context context) {
         mContext = context;
-        mCardDao = cd;
+        mCardDao = CardDao.getInstance();
     }
 
     @Override
-    public void swapCards(int before, int after) {
-
+    public boolean swapCards(int before, int after) {
+        return true;
     }
 
     @Override
-    public void closeCard(@NonNull BaseModel bm) {
+    public boolean closeCard(@NonNull BaseModel bm) {
 
+        return true;
     }
 
     @Override
-    public void closeCard(int pos) {
+    public boolean closeCard(int pos) {
 
+        return true;
     }
 
     @Override
-    public void addCard(@NonNull BaseModel bm) {
+    public boolean addCard(@NonNull BaseModel bm) {
         CardBean cb = DataConvertor.getInstance().convertFromModel(bm);
         if (cb != null) {
             mCardDao.save(cb);
         }
+        return true;
     }
 
     @Override
-    public void saveCard(@NonNull BaseModel bm) {
+    public boolean saveCard(@NonNull BaseModel bm) {
         CardBean cb = DataConvertor.getInstance().convertFromModel(bm);
         if (cb != null) {
         }
+        return true;
     }
 
     @Override
@@ -130,6 +134,15 @@ public class DbSource implements CardsRepoApi<BaseModel>, AppsRepoApi<AppInfo> {
 
     @Override
     public Observable<List<AppInfo>> loadApps() {
+        return getAppByCondition(false);
+    }
+
+    @Override
+    public Observable<List<AppInfo>> loadQuickApps() {
+        return getAppByCondition(true);
+    }
+
+    private Observable<List<AppInfo>> getAppByCondition(final boolean isQuickApp) {
         return Observable.from(getAllDbs()).filter(new Func1<CardBean, Boolean>() {
             @Override
             public Boolean call(CardBean cardBean) {
@@ -142,10 +155,15 @@ public class DbSource implements CardsRepoApi<BaseModel>, AppsRepoApi<AppInfo> {
                 info.fromJson(cardBean.jsonData);
                 return info;
             }
+        }).filter(new Func1<AppInfo, Boolean>() {
+            @Override
+            public Boolean call(AppInfo info) {
+                return isQuickApp ? info.isQuickApp : !info.isQuickApp;
+            }
         }).toList();
     }
 
     private CardBean findCardBeanByInfo(AppInfo info) {
-        return null;
+        return DataConvertor.getInstance().convertFromModel(info);
     }
 }

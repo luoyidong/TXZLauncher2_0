@@ -38,8 +38,12 @@ public class AppInfo {
     public int type = TYPE_THIRD_APP;
 
     public String packageName;
+    
+    public String name;
 
     public boolean isSystemApp;
+
+    public boolean isQuickApp;
 
     @Inject
     public AppInfo() {

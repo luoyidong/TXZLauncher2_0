@@ -10,10 +10,10 @@ import javax.inject.Inject;
 /**
  * Created by TXZ-METEORLUO on 2017/4/14.
  */
-public class NaviLevelRepoSource extends LevelRepositeSource<NavData> implements NavApi {
+public class NaviLevelRepoSource extends LevelRepositeSource<NavData, NavApi.OnNavListener> implements NavApi {
 
     @Inject
-    public NaviLevelRepoSource(DataApi<NavData>... nds) {
+    public NaviLevelRepoSource(DataApi<NavData, NavApi.OnNavListener>... nds) {
         super(nds);
 
         initialize(new OnInitListener() {
@@ -24,7 +24,7 @@ public class NaviLevelRepoSource extends LevelRepositeSource<NavData> implements
     }
 
     private NavApi getCurrInstance() {
-        DataApi<NavData> currInstance = getCurrInterface();
+        DataApi<NavData, NavApi.OnNavListener> currInstance = getCurrInterface();
         if (currInstance instanceof NavApi) {
             return (NavApi) currInstance;
         }
