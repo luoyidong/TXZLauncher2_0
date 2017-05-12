@@ -2,7 +2,6 @@ package com.txznet.launcher.data.source;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.j256.ormlite.stmt.query.OrderBy;
 import com.txznet.launcher.data.DataConvertor;
@@ -44,12 +43,25 @@ public class DbSource implements CardsRepoApi<BaseModel>, AppsRepoApi<AppInfo> {
 
     @Override
     public boolean swapCards(int before, int after) {
+        List<CardBean> allbeans = getAllDbs();
+        if (allbeans != null
+                && allbeans.size() > 0
+                && before >= 0
+                && after >= 0
+                && allbeans.size() - 1 >= before
+                && allbeans.size() - 1 >= after) {
+            // TODO 更新位置pos
+        }
         return true;
     }
 
     @Override
     public boolean closeCard(@NonNull BaseModel bm) {
-
+        CardBean bean = findCardBeanByInfo(bm);
+        if (bean != null) {
+            bean.card = CardBean.DELETE_TRUE;
+            mCardDao.update(bean);
+        }
         return true;
     }
 
@@ -92,30 +104,16 @@ public class DbSource implements CardsRepoApi<BaseModel>, AppsRepoApi<AppInfo> {
         }).toList();
     }
 
-    private List<CardBean> getAllDbs() {
-        List<CardBean> cbs = null;
+    private synchronized List<CardBean> getAllDbs() {
         if (mAllTmpList != null && mAllTmpList.size() > 0) {
-            cbs = new ArrayList<>();
-            synchronized (mAllTmpList) {
-                cbs.addAll(mAllTmpList);
-            }
-            return cbs;
+            return mAllTmpList;
         }
 
         Map<String, Object> kvs = new HashMap<>();
         OrderBy ob = new OrderBy("pos", true);
-        cbs = mCardDao.findByCondition(kvs, "type", ob);
+        mAllTmpList = mCardDao.findByCondition(kvs, "type", ob);
 
-        synchronized (mAllTmpList) {
-            if (cbs != null && cbs.size() > 0) {
-                mAllTmpList.clear();
-                mAllTmpList.addAll(cbs);
-            } else if (cbs == null) {
-                cbs = new ArrayList<>();
-            }
-        }
-        Log.d(TAG, "getAllDbs:" + cbs);
-        return cbs;
+        return mAllTmpList;
     }
 
     @Override
@@ -163,7 +161,37 @@ public class DbSource implements CardsRepoApi<BaseModel>, AppsRepoApi<AppInfo> {
         }).toList();
     }
 
+    private CardBean findBeanByPos(int pos) {
+        List<CardBean> allbeans = mAllTmpList;
+        if (allbeans == null) {
+            allbeans = getAllDbs();
+        }
+        if (allbeans != null) {
+            for (CardBean bean : allbeans) {
+                if (bean.pos == pos) {
+                    return bean;
+                }
+            }
+        }
+        return null;
+    }
+
     private CardBean findCardBeanByInfo(AppInfo info) {
-        return DataConvertor.getInstance().convertFromModel(info);
+        List<CardBean> allbeans = mAllTmpList;
+        if (allbeans == null) {
+            allbeans = getAllDbs();
+        }
+
+        if (allbeans != null) {
+            boolean isCard = info instanceof BaseModel;
+            for (int i = 0; i < allbeans.size(); i++) {
+                CardBean bean = allbeans.get(i);
+                int type = isCard ? CardBean.TYPE_CARD : CardBean.TYPE_APP;
+                if (bean.type == type && bean.packageName.equals(info.packageName)) {
+                    return bean;
+                }
+            }
+        }
+        return null;
     }
 }

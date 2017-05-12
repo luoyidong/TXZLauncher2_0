@@ -8,6 +8,7 @@ import com.txznet.launcher.data.model.AppInfo;
 import com.txznet.launcher.data.model.BaseModel;
 import com.txznet.launcher.db.CardBean;
 import com.txznet.launcher.module.PackageManager;
+import com.txznet.launcher.util.PropertUtil;
 
 /**
  * Created by TXZ-METEORLUO on 2017/4/9.
@@ -25,22 +26,38 @@ public class DataConvertor implements DataCreateApi, DataConvertApi {
         PackageManager.AppInfo appInfo = PackageManager.getInstance().getAppInfo(packageName);
         if (appInfo == null) {
             Log.e(TAG, "createCard:" + packageName);
-            // TODO 对应从系统中获取的应用信息为空
             return null;
         }
 
         BaseModel bm = new BaseModel(appInfo.appPkn, appInfo.isSystemApp);
         bm.name = appInfo.appName;
 
-        // TODO 测试方法
+        if (packageName.equals(PropertUtil.getInstance().getDefaultNav())) {
+            bm.type = AppInfo.TYPE_NAV;
+        } else if (packageName.equals(PropertUtil.getInstance().getDefaultMusic())) {
+            bm.type = AppInfo.TYPE_MUSIC;
+        } else if (packageName.equals(PropertUtil.getInstance().getDefaultRealCar())) {
+            bm.type = AppInfo.TYPE_REAL;
+        } else if (packageName.equals(PropertUtil.getInstance().getDefaultWeather())) {
+            bm.type = AppInfo.TYPE_WEATHER;
+        } else {
+            if (appInfo.isSystemApp) {
+                bm.type = AppInfo.TYPE_SYSTEM_APP;
+            } else {
+                bm.type = AppInfo.TYPE_THIRD_APP;
+            }
+        }
+
         return bm;
     }
 
     @Override
     public AppInfo createFromType(int type, boolean isCard) {
-        AppInfo appInfo = new AppInfo(type);
+        AppInfo appInfo = null;
         if (isCard) {
             appInfo = new BaseModel(type);
+        } else {
+            appInfo = new AppInfo(type);
         }
         return appInfo;
     }
@@ -67,6 +84,7 @@ public class DataConvertor implements DataCreateApi, DataConvertApi {
         } else {
             cb.type = CardBean.TYPE_APP;
         }
+
         return cb;
     }
 }

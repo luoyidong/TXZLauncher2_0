@@ -21,6 +21,7 @@ public class PropertUtil {
     public static final String KEY_CARD_MUSIC = "card_music";
     public static final String KEY_CARD_NAV = "card_nav";
     public static final String KEY_CARD_CAR = "card_car";
+    public static final String KEY_CARD_WEATHER = "card_weather";
 
     //默认显示卡片的应用包名列表
     static final String KEY_ENABLE_CARD_LIST = "enable_card_list";
@@ -118,6 +119,10 @@ public class PropertUtil {
 
     public String getDefaultRealCar() {
         return sProperties.getProperty(KEY_CARD_CAR, "com.car.dvr");
+    }
+
+    public String getDefaultWeather() {
+        return sProperties.getProperty(KEY_CARD_WEATHER);
     }
 
     public boolean isAppDefaultIcon() {
