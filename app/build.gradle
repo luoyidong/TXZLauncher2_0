@@ -36,8 +36,8 @@ dependencies {
     // spots-dialog
     // https://github.com/d-max/spots-dialog
     compile 'com.github.d-max:spots-dialog:0.4@aar'
-    compile files('libs/TXZ_SDK.jar')
-    compile files('libs/universal-image-loader-1.9.3.jar')
-    compile files('libs/ormlite-android-4.48.jar')
-    compile files('libs/ormlite-core-4.48.jar')
+//    compile files('libs/TXZ_SDK.jar')
+//    compile files('libs/universal-image-loader-1.9.3.jar')
+//    compile files('libs/ormlite-android-4.48.jar')
+//    compile files('libs/ormlite-core-4.48.jar')
 }

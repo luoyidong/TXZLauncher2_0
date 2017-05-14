@@ -2,6 +2,7 @@ package com.txznet.launcher.data.source;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.j256.ormlite.stmt.query.OrderBy;
 import com.txznet.launcher.data.DataConvertor;
@@ -51,6 +52,17 @@ public class DbSource implements CardsRepoApi<BaseModel>, AppsRepoApi<AppInfo> {
                 && allbeans.size() - 1 >= before
                 && allbeans.size() - 1 >= after) {
             // TODO 更新位置pos
+            CardBean bcb = findBeanByPos(before);
+            CardBean acb = findBeanByPos(after);
+            if (bcb != null && acb != null) {
+                bcb.pos = after;
+                acb.pos = before;
+                Log.d(TAG, "bcb:" + bcb.packageName + " acb:" + acb.packageName + " swap:" + before + "," + after);
+
+                // 更新数据库
+                mCardDao.update(bcb);
+                mCardDao.update(acb);
+            }
         }
         return true;
     }
