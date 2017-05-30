@@ -7,7 +7,7 @@ import com.txznet.launcher.data.model.AppInfo;
  */
 public interface AppsRepoApi<T> extends AppSourceApi<T> {
 
-`    /**
+    /**
      * 卸载一个APP（所有APP删掉该应用显示）
      *
      * @param pos

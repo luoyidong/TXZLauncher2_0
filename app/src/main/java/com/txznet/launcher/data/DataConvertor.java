@@ -10,6 +10,8 @@ import com.txznet.launcher.db.CardBean;
 import com.txznet.launcher.module.PackageManager;
 import com.txznet.launcher.util.PropertUtil;
 
+import java.util.List;
+
 /**
  * Created by TXZ-METEORLUO on 2017/4/9.
  */
@@ -17,16 +19,35 @@ public class DataConvertor implements DataCreateApi, DataConvertApi {
     private static final String TAG = DataConvertor.class.getSimpleName();
     private static DataConvertor sCreator = new DataConvertor();
 
+    private List<String> enableCards = null;
+    private List<String> disableCards = null;
+
+    private DataConvertor() {
+        enableCards = PropertUtil.getInstance().getEnableCards();
+        disableCards = PropertUtil.getInstance().getDisableApps();
+    }
+
     public static DataConvertor getInstance() {
         return sCreator;
     }
 
     @Override
-    public BaseModel createCard(String packageName) {
+    public AppInfo createCard(String packageName) {
         PackageManager.AppInfo appInfo = PackageManager.getInstance().getAppInfo(packageName);
         if (appInfo == null) {
             Log.e(TAG, "createCard:" + packageName);
             return null;
+        }
+        if (disableCards.contains(packageName)) {
+            return null;
+        }
+
+        if (!enableCards.contains(packageName)) {
+            AppInfo info = new AppInfo();
+            info.packageName = packageName;
+            info.isSystemApp = appInfo.isSystemApp;
+            info.name = appInfo.appName;
+            return info;
         }
 
         BaseModel bm = new BaseModel(appInfo.appPkn, appInfo.isSystemApp);
@@ -85,6 +106,8 @@ public class DataConvertor implements DataCreateApi, DataConvertApi {
             cb.type = CardBean.TYPE_APP;
         }
 
+        cb.packageName = info.packageName;
+        cb.jsonData = info.toString();
         return cb;
     }
 }

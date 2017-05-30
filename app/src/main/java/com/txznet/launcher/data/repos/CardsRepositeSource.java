@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.txznet.launcher.data.DataConvertor;
 import com.txznet.launcher.data.api.CardsRepoApi;
 import com.txznet.launcher.data.api.CardsSourceApi;
+import com.txznet.launcher.data.model.AppInfo;
 import com.txznet.launcher.data.model.BaseModel;
 import com.txznet.launcher.data.source.DbSource;
 import com.txznet.launcher.di.Db;
@@ -29,14 +30,14 @@ import rx.functions.Func2;
  */
 @Singleton
 public class CardsRepositeSource implements CardsRepoApi<BaseModel> {
-    private CardsRepoApi mDbSource;
+    private DbSource mDbSource;
     private CardsSourceApi mPmSource;
     private CardsSourceApi mStatusSource;
 
     @Inject
     public CardsRepositeSource(@Pm @NonNull CardsSourceApi pm, @Db @NonNull DbSource db, @Ss @NonNull CardsSourceApi ss) {
         this.mPmSource = pm;
-        this.mDbSource = (CardsRepoApi) db;
+        this.mDbSource = db;
         this.mStatusSource = ss;
     }
 
@@ -55,11 +56,15 @@ public class CardsRepositeSource implements CardsRepoApi<BaseModel> {
             public List<BaseModel> call(List<String> strings) {
                 List<BaseModel> bms = new ArrayList<>();
                 for (String p : strings) {
-                    BaseModel bm = convertPackageToBm(p);
+                    AppInfo bm = convertPackageToBm(p);
                     if (bm == null) {
                         continue;
                     }
-                    bms.add(bm);
+                    if (bm instanceof BaseModel) {
+                        bms.add((BaseModel) bm);
+                    } else {
+                        mDbSource.addApp(bm);
+                    }
                 }
                 return bms;
             }
@@ -78,13 +83,13 @@ public class CardsRepositeSource implements CardsRepoApi<BaseModel> {
             @Override
             public void call(List<BaseModel> baseModels) {
                 for (BaseModel bm : baseModels) {
-                    mDbSource.addCard(bm);
+                    mDbSource.addCard(bm, -1);
                 }
             }
         });
     }
 
-    private BaseModel convertPackageToBm(String packageName) {
+    private AppInfo convertPackageToBm(String packageName) {
         return DataConvertor.getInstance().createCard(packageName);
     }
 
@@ -104,8 +109,8 @@ public class CardsRepositeSource implements CardsRepoApi<BaseModel> {
     }
 
     @Override
-    public boolean addCard(BaseModel bm) {
-        return mDbSource.addCard(bm);
+    public boolean addCard(BaseModel bm, int pos) {
+        return mDbSource.addCard(bm, pos);
     }
 
     @Override

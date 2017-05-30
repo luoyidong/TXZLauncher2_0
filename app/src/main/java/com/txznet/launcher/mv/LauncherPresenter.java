@@ -116,8 +116,8 @@ public class LauncherPresenter extends LauncherContract.Presenter {
     }
 
     @Override
-    public void addCard(BaseModel card) {
-        mRepoSource.addCard(card);
+    public void addCard(BaseModel card, int pos) {
+        mRepoSource.addCard(card, pos);
     }
 
     @Override

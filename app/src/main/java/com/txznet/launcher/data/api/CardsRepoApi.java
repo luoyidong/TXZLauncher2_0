@@ -15,7 +15,7 @@ public interface CardsRepoApi<T> extends CardsSourceApi<T> {
 
     boolean closeCard(int pos);
 
-    boolean addCard(BaseModel bm);
+    boolean addCard(BaseModel bm, int pos);
 
     boolean saveCard(BaseModel bm);
 

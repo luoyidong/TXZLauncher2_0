@@ -26,7 +26,7 @@ public interface LauncherContract {
 
         public abstract void loadCards();
 
-        public abstract void addCard(BaseModel card);
+        public abstract void addCard(BaseModel card, int pos);
 
         public abstract void removeCard(int pos);
 
