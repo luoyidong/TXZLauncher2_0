@@ -38,7 +38,7 @@ public class DataConvertor implements DataCreateApi, DataConvertApi {
             Log.e(TAG, "createCard:" + packageName);
             return null;
         }
-        if (disableCards.contains(packageName)) {
+        if (disableCards != null && disableCards.contains(packageName)) {
             return null;
         }
 

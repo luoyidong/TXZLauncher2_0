@@ -57,6 +57,8 @@ public class MainActivity extends BaseLoadingActivity implements LauncherContrac
         getWindow().getDecorView().setSystemUiVisibility(View.INVISIBLE);
 
         initViews();
+
+        mPresenter.attachView(this);
     }
 
     private void initViews() {
@@ -129,15 +131,9 @@ public class MainActivity extends BaseLoadingActivity implements LauncherContrac
     }
 
     @Override
-    protected void onStart() {
-        mPresenter.attachView(this);
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
+    protected void onDestroy() {
         mPresenter.detachView();
-        super.onStop();
+        super.onDestroy();
     }
 
     @Override
